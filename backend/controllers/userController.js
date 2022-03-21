@@ -1,15 +1,25 @@
 const asyncHandler = require('express-async-handler')
+const User = require('../models/userModel')
 
 const getUsers = asyncHandler (async (req, res) => {
-    res.status(200).json({message: 'Get users'})
+    const users = await User.find()
+    res.status(200).json({users})
 })
 
 const setUser = asyncHandler (async (req, res) => {
-    if (!req.body.newUser) {
+    if (!req.body) {
         res.status(400)
         throw new Error('Please fill out all fields')
     }
-    res.status(201).json({message: 'Set user'})
+   
+    const user = await User.create({
+        "firstName": req.body.firstName,
+		"lastName": req.body.lastName,
+		"email": req.body.email,
+		"postcode": req.body.postcode
+	
+    })
+    res.status(201).json(user)
 })
 
 const updateUser = asyncHandler (async (req, res) => {

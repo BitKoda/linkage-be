@@ -8,7 +8,7 @@
     "server": "nodemon backend/server.js"
   },
   "keywords": [],
-  "author": "Jamie Finlay",
+  "author": "Team Reactors",
   "license": "MIT",
   "dependencies": {
     "colors": "^1.4.0",

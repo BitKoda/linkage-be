@@ -12,10 +12,11 @@ const userSchema = mongoose.Schema(
     },
     email: { type: String, required: [true, "please input email"] },
     postcode: { type: String, required: [true, "please input postcode"] },
+    approved: { type: Boolean, default: false, required: true },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model("User", userSchema);

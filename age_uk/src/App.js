@@ -4,17 +4,24 @@ import { useState } from "react";
 import { ThemeContext } from "./theme/ThemeContext";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./components/HomePage";
 
 const App = () => {
   const [ourMode, setOurMode] = useState("light");
   const ourTheme = Theme(ourMode);
   return (
-    <ThemeContext.Provider value={{ ourTheme }}>
-      <ThemeProvider theme={ourTheme}>
-        <CssBaseline />
-        <Header ourMode={ourMode} setOurMode={setOurMode} />
-      </ThemeProvider>
-    </ThemeContext.Provider>
+    <BrowserRouter>
+      <ThemeContext.Provider value={{ ourTheme }}>
+        <ThemeProvider theme={ourTheme}>
+          <CssBaseline />
+          <Header ourMode={ourMode} setOurMode={setOurMode} />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </ThemeProvider>
+      </ThemeContext.Provider>
+    </BrowserRouter>
   );
 };
 

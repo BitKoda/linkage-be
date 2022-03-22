@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import Theme from "./theme/Theme";
+import { useState } from "react";
+import { ThemeContext } from "./theme/ThemeContext";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
-function App() {
+const App = () => {
+  const [ourMode, setOurMode] = useState("light");
+  const ourTheme = Theme(ourMode);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeContext.Provider value={{ ourTheme }}>
+      <ThemeProvider theme={ourTheme}>
+        <CssBaseline />
+        <Header ourMode={ourMode} setOurMode={setOurMode} />
+      </ThemeProvider>
+    </ThemeContext.Provider>
   );
-}
+};
 
 export default App;

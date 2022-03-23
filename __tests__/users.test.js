@@ -79,21 +79,21 @@ describe("GET /api/users/", () => {
         });
       });
   });
-  test.only('for user inputting invalid role', () => {
-    const badmin = {
-      firstName: "Andy",
-      lastName: "Northcoder",
-      email: "ex@gmail.com",
-      postcode: "m50 3ao",
-      approved: false,
-      userRole: "gimp"
-    }
-    return request(app)
-    .post("/api/users")
-    .send(badmin)
-    .expect(400)
-    .then(({body: {msg}}) => {
-      expect(msg).toBe('Please fill out all fields')
-    })
-  })
+  // test.only('for user inputting invalid role', () => {
+  //   const badmin = {
+  //     firstName: "Andy",
+  //     lastName: "Northcoder",
+  //     email: "ex@gmail.com",
+  //     postcode: "m50 3ao",
+  //     approved: false,
+  //     userRole: "gimp"
+  //   }
+  //   return request(app)
+  //   .post("/api/users")
+  //   .send(badmin)
+  //   .expect(400)
+  //   .then(({body: {msg}}) => {
+  //     expect(msg).toBe('Please fill out all fields')
+  //   })
+  // })
 });

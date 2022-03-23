@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Visit = require('../models/visitModel')
 
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id)
@@ -58,10 +59,33 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
+
+
+
+
+
+
+
+
+
+
+const getVisitByVolunteerId = asyncHandler(async (req, res) => {
+const user = await User.findById(req.params.id);
+if (!user) {
+  res.status(400);
+  throw new Error("User not found");
+}
+const visits = await Visit.find({volunteer_id: req.params.id})
+res.status(200).json(visits)
+
+})
+
 module.exports = {
   getUser,
   getUsers,
   setUser,
   updateUser,
   deleteUser,
+  getVisitByVolunteerId,
+  
 };

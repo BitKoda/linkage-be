@@ -5,9 +5,12 @@ const connectDB = require("../backend/config/db");
 const dotenv = require("dotenv").config();
 const colors = require("colors");
 
-describe("GET /api/visits/", () => {
+//connectDB()
+
+describe.only("GET /api/visits/", () => {
   beforeEach(() => {
     connectDB();
+    //console.log(mongoose.connection)
   });
   afterEach(() => {
     return mongoose.connection.close();

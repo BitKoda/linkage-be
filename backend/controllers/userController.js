@@ -1,9 +1,20 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 
-const getUsersByRole = asyncHandler(async (req, res) => {
-  const users = await User.find({userRole: `${req.query.userRole}`})
-  res.status(200).json({ users });
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+ 
+  if (!user) {
+    res.status(400);
+    throw new Error("User not found");
+  }
+  res.status(200).json(user);
+});
+
+const getUsers = asyncHandler(async (req, res) => {
+  // const users = await User.find({userRole: `${req.query.userRole}`})
+  const users = await User.find(req.body)
+  res.status(200).json(users);
 });
 
 const setUser = asyncHandler(async (req, res) => {
@@ -17,6 +28,7 @@ const setUser = asyncHandler(async (req, res) => {
     lastName: req.body.lastName,
     email: req.body.email,
     postcode: req.body.postcode,
+    approved: false,
     userRole: req.body.userRole
   });
   res.status(201).json(user);
@@ -47,7 +59,8 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getUsersByRole,
+  getUser,
+  getUsers,
   setUser,
   updateUser,
   deleteUser,

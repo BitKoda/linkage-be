@@ -24,6 +24,7 @@ const saveUser = () => {
       approved: false,
       userRole: "visitee",
     },
+    
   ];
 
   return User.insertMany(users);

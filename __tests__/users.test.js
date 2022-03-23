@@ -25,11 +25,24 @@ afterAll(() => {
 describe("GET /api/users/", () => {
   test("GET returns an object with all users", () => {
     return request(app)
-      .get("/api/users?userRole=volunteer")
+      .get("/api/users")
       .expect(200)
       .then(({ body }) => {
-        console.log(body);
         expect(body).toBeInstanceOf(Array);
       });
   });
-});
+  test('checks instanceOf properties', () => {
+    return request(app)
+    .get('/api/users')
+    .expect(200)
+    .then(({body}) => {
+      body.forEach((user) => {
+        expect(user).
+      })
+    })
+  })
+// });
+// expect(topic).toEqual(
+//   expect.objectContaining({
+//     slug: expect.any(String),
+//     description: expect.any(String),

@@ -75,7 +75,7 @@ if (!user) {
   res.status(400);
   throw new Error("User not found");
 }
-const visits = await Visit.find({volunteer_id: req.params.id})
+const visits = await Visit.find({volunteerId: req.params.id})
 res.status(200).json(visits)
 
 })

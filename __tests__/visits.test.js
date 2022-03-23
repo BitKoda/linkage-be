@@ -39,6 +39,7 @@ describe("GET /api/visits/", () => {
     .then(({body}) => {
       console.log(body)
       expect(body).toBeInstanceOf(Array);
+      expect(body).toHaveLength(2)
     })
   });
 });

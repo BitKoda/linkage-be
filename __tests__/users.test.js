@@ -7,7 +7,7 @@ const colors = require("colors");
 
 //connectDB()
 
-describe.only("GET /api/visits/", () => {
+xdescribe("GET /api/visits/", () => {
   beforeEach(() => {
     connectDB();
     //console.log(mongoose.connection)

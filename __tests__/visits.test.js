@@ -169,7 +169,6 @@ describe("POST /api/visits/", () => {
       .expect(200)
       .then(({ body }) => {
         expect(body).toBeInstanceOf(Object);
-        console.log(body);
         expect(body.visiteeFirstName).toBe("Kate");
         expect(body.visiteeLastName).toBe("C");
         expect(body.volunteerFirstName).toBe("William");
@@ -193,5 +192,12 @@ describe("POST /api/visits/", () => {
       .then(({ body: { message } }) => {
         expect(message).toBe("Please fill out all fields");
       });
+  });
+});
+
+describe("DELETE /api/visits/:visitId", () => {
+  test("204: should delete a visit object ", () => {
+    const visitId = data.visits[3]._id.toString();
+    return request(app).delete(`/api/visits/${visitId}`).expect(204);
   });
 });

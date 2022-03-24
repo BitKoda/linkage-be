@@ -33,10 +33,46 @@ const getVisitByVisitId = asyncHandler(async (req, res, next) => {
     });
 });
 
+const setVisit = asyncHandler(async (req, res, next) => {
+  try {
+    const entries = Object.values(req.body);
+
+    const valueLength = entries.map((value) => {
+      return value.length;
+    });
+    valueLength.some((value) => {
+      if (value === 0) {
+        res.status(400);
+        throw new Error("Please fill out all fields");
+      }
+    });
+    const postedVisit = await Visit.create({
+      volunteerId: req.body.volunteerId,
+      visiteeId: req.body.visiteeId,
+      volunteerFirstName: req.body.volunteerFirstName,
+      volunteerLastName: req.body.volunteerLastName,
+      visiteeFirstName: req.body.visiteeFirstName,
+      visiteeLastName: req.body.visiteeLastName,
+    });
+
+    res.status(200).json(postedVisit);
+
+    // .then((visit) => {
+    //   res.status(201).send(visit);
+    // })
+    // .catch((error) => {
+    //   res.status(404);
+    //   throw new Error("No visit found");
+    // });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = {
   getAllVisits,
   getVisitByVisitId,
-  //   setUser,
+  setVisit,
   // updateUser,
   // deleteUser,
 };

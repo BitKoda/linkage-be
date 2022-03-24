@@ -8,11 +8,11 @@ const visitSchema = Schema(
       required: [true, "please input volunteerId"],
     },
     volunteerFirstName: {
-      type: String,
+      type: Schema.Types.String,
       required: [true, "Please input first name"],
     },
     volunteerLastName: {
-      type: String,
+      type: Schema.Types.String,
       required: [true, "Please input last name"],
     },
     visiteeId: {
@@ -20,11 +20,11 @@ const visitSchema = Schema(
       required: [true, "please input visiteeId"],
     },
     visiteeFirstName: {
-      type: String,
+      type: Schema.Types.String,
       required: [true, "Please input first name"],
     },
     visiteeLastName: {
-      type: String,
+      type: Schema.Types.String,
       required: [true, "Please input last name"],
     },
   },

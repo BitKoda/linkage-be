@@ -151,3 +151,47 @@ describe("GET /api/visits/:visitId", () => {
       });
   });
 });
+
+describe("POST /api/visits/", () => {
+  test("201: should return a visit object ", () => {
+    const testVisit = {
+      volunteerId: data.users[4]._id.toString(),
+      volunteerFirstName: data.users[4].firstName,
+      volunteerLastName: data.users[4].lastName,
+      visiteeId: data.users[2]._id.toString(),
+      visiteeFirstName: data.users[2].firstName,
+      visiteeLastName: data.users[2].lastName,
+    };
+
+    return request(app)
+      .post(`/api/visits`)
+      .send(testVisit)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toBeInstanceOf(Object);
+        console.log(body);
+        expect(body.visiteeFirstName).toBe("Kate");
+        expect(body.visiteeLastName).toBe("C");
+        expect(body.volunteerFirstName).toBe("William");
+        expect(body.volunteerLastName).toBe("J");
+      });
+  });
+  test("400: returns message 'Please fill out all fields' ", () => {
+    const testVisit = {
+      volunteerId: data.users[4]._id.toString(),
+      volunteerFirstName: data.users[4].firstName,
+      volunteerLastName: data.users[4].lastName,
+      visiteeId: data.users[2]._id.toString(),
+      visiteeFirstName: data.users[2].firstName,
+      visiteeLastName: "",
+    };
+
+    return request(app)
+      .post(`/api/visits`)
+      .send(testVisit)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Please fill out all fields");
+      });
+  });
+});

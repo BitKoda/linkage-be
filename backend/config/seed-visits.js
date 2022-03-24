@@ -40,9 +40,15 @@ const saveUser = () => {
       postcode: "m9 5lt",
       approved: false,
       userRole: "volunteer",
-    }
-
-    
+    },
+    {
+      firstName: "William",
+      lastName: "J",
+      email: "will@gmail.com",
+      postcode: "m40 5lt",
+      approved: false,
+      userRole: "volunteer",
+    },
   ];
 
   return User.insertMany(users);
@@ -81,7 +87,7 @@ const saveVisit = (users) => {
       visiteeId: users[1]._id,
       visiteeFirstName: users[1].firstName,
       visiteeLastName: users[1].lastName,
-    }
+    },
   ];
   return Visit.insertMany(visits);
 };

@@ -30,6 +30,11 @@ const setUser = asyncHandler(async (req, res, next) => {
         throw new Error("Please fill out all fields");
       }
     });
+    if(req.body.userRole !== 'volunteer' && req.body.userRole !== 'visitee' && req.body.userRole !== 'admin' ) {
+      console.log(req.body.userRole)
+      res.status(400);
+      throw new Error("Incorrect input");
+    }
 
     const user = await User.create({
       firstName: req.body.firstName,

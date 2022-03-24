@@ -65,7 +65,6 @@ describe('GET /api/users/:id/visits', () => {
     .get(`/api/users/${userId}/visits`)
     .expect(200)
     .then(({body}) => {
-      console.log(body)
       expect(body).toBeInstanceOf(Array);
       expect(body).toHaveLength(2)
       body.forEach((visit) => {
@@ -99,7 +98,6 @@ describe('GET /api/users/:id/visits', () => {
     .get(`/api/users/${userId}/visits`)
     .expect(200)
     .then(({body}) => {
-      console.log(body)
       expect(body).toBeInstanceOf(Array);
       expect(body).toHaveLength(2)
       body.forEach((visit) => {
@@ -119,6 +117,25 @@ describe('GET /api/users/:id/visits', () => {
     })
   });
   })
-  
-  
+  describe('GET /api/visits/:visitId', () => {
+    test('200: should return a visit object ', () => {
+    const visitId = data.visits[0]._id.toString()
+    return request(app)
+    .get(`/api/visits/${visitId}`)
+    .expect(200)
+    .then(({body}) => {
+      expect(body).toBeInstanceOf(Object);
+      expect(body.visiteeFirstName).toBe("Freddie")
+      expect(body.volunteerFirstName).toBe("Andy")
+    });
+  });
+  test.only('404: non-existent visitId returns "No visit found"', () => {
+    return request(app)
+    .get(`/api/visits/fjh47347`)
+    .expect(404)
+    .then(({body: {message}}) => {
+      expect(message).toBe("No visit found")
+    });
+  });
+})
 

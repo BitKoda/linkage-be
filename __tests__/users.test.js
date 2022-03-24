@@ -70,7 +70,6 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          console.log(user)
           expect(
             user.userRole === "admin" ||
               user.userRole === "volunteer" ||
@@ -79,21 +78,45 @@ describe("GET /api/users/", () => {
         });
       });
   });
-  // test.only('for user inputting invalid role', () => {
-  //   const badmin = {
-  //     firstName: "Andy",
-  //     lastName: "Northcoder",
-  //     email: "ex@gmail.com",
-  //     postcode: "m50 3ao",
-  //     approved: false,
-  //     userRole: "gimp"
-  //   }
-  //   return request(app)
-  //   .post("/api/users")
-  //   .send(badmin)
-  //   .expect(400)
-  //   .then(({body: {msg}}) => {
-  //     expect(msg).toBe('Please fill out all fields')
-  //   })
-  // })
+  test('post a new user', () => {
+    const goodUser = {
+      firstName: "Sammy",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m50 4ao",
+      approved: false,
+      userRole: "visitee"
+    }
+    return request(app)
+    .post("/api/users")
+    .send(goodUser)
+    .expect(201)
+    .then(({body}) => {
+      expect(body).toEqual(expect.objectContaining({
+        firstName: "Sammy",
+        lastName: "Northcoder",
+        email: "fehtefhde@gmail.com",
+        postcode: "m50 4ao",
+        approved: false,
+        userRole: "visitee"
+      }))
+    })
+  })
+  test('field has been inputted', () => {
+    const badUser = {
+      firstName: "Sammy",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m50 4ao",
+      approved: false,
+      userRole: ""
+    }
+    return request(app)
+    .post("/api/users")
+    .send(badUser)
+    .expect(400)
+    .then(({body: {message}}) => {
+      expect(message).toEqual('Please fill out all fields')
+    })
+  })
 });

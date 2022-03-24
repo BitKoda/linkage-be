@@ -160,25 +160,32 @@ describe("POST /api/users", () => {
   });
 });
 
-describe('GET /api/users/:userId', () => {
-  test.only('get single user by Id', () => {
-    const userId = data.users[1]._id.toString()
+describe("GET /api/users/:userId", () => {
+  test("get single user by Id", () => {
+    const userId = data.users[0]._id;
 
     return request(app)
-    .get(`/api/users/${userId}`)
-    .expect(200)
-    .then(({body}) => {
-      console.log(body)
-      expect(body).toEqual(
-        expect.objectContaining({
-          firstName: "Andy",
-          lastName: "Northcoder",
-          email: "ex@gmail.com",
-          postcode: "m50 3ao",
-          approved: false,
-          userRole: "volunteer",
-        })
-      )
-    })
-  })
+      .get(`/api/users/${userId}`)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(
+          expect.objectContaining({
+            firstName: "Andy",
+            lastName: "Northcoder",
+            email: "ex@gmail.com",
+            postcode: "m50 3ao",
+            approved: false,
+            userRole: "volunteer",
+          })
+        );
+      });
+  });
+  test("returns a 404 when an incorrect user ID is passed in", () => {
+    return request(app)
+      .get(`/api/users/1`)
+      .expect(404)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Invalid id");
+      });
+  });
 });

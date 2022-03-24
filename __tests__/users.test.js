@@ -22,7 +22,7 @@ afterAll(() => {
   //   return mongoose.disconnect();
   return mongoose.connection.close();
 });
-describe("/api/users/", () => {
+describe("GET /api/users/", () => {
   test("GET - returns an object with all users", () => {
     return request(app)
       .get("/api/users")
@@ -64,6 +64,9 @@ describe("/api/users/", () => {
         });
       });
   });
+});
+
+describe("POST /api/users", () => {
   test("POST - userRole is a valid role", () => {
     return request(app)
       .get("/api/users")
@@ -155,4 +158,27 @@ describe("/api/users/", () => {
         expect(message).toEqual("Incorrect input");
       });
   });
+});
+
+describe('GET /api/users/:userId', () => {
+  test.only('get single user by Id', () => {
+    const userId = data.users[1]._id.toString()
+
+    return request(app)
+    .get(`/api/users/${userId}`)
+    .expect(200)
+    .then(({body}) => {
+      console.log(body)
+      expect(body).toEqual(
+        expect.objectContaining({
+          firstName: "Andy",
+          lastName: "Northcoder",
+          email: "ex@gmail.com",
+          postcode: "m50 3ao",
+          approved: false,
+          userRole: "volunteer",
+        })
+      )
+    })
+  })
 });

@@ -22,8 +22,8 @@ afterAll(() => {
   //   return mongoose.disconnect();
   return mongoose.connection.close();
 });
-describe("GET /api/users/", () => {
-  test("GET returns an object with all users", () => {
+describe("/api/users/", () => {
+  test("GET - returns an object with all users", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -31,7 +31,7 @@ describe("GET /api/users/", () => {
         expect(body).toBeInstanceOf(Array);
       });
   });
-  test("checks instanceOf properties", () => {
+  test("GET - checks instanceOf properties", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -54,7 +54,7 @@ describe("GET /api/users/", () => {
         });
       });
   });
-  test("checks number of keys in a user object", () => {
+  test("GET - checks number of keys in a user object", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -64,7 +64,7 @@ describe("GET /api/users/", () => {
         });
       });
   });
-  test("userRole is a valid role", () => {
+  test("POST - userRole is a valid role", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -78,45 +78,81 @@ describe("GET /api/users/", () => {
         });
       });
   });
-  test('post a new user', () => {
+  test("POST - post a new user", () => {
     const goodUser = {
       firstName: "Sammy",
       lastName: "Northcoder",
       email: "fehtefhde@gmail.com",
       postcode: "m50 4ao",
       approved: false,
-      userRole: "visitee"
-    }
+      userRole: "admin",
+    };
     return request(app)
-    .post("/api/users")
-    .send(goodUser)
-    .expect(201)
-    .then(({body}) => {
-      expect(body).toEqual(expect.objectContaining({
-        firstName: "Sammy",
-        lastName: "Northcoder",
-        email: "fehtefhde@gmail.com",
-        postcode: "m50 4ao",
-        approved: false,
-        userRole: "visitee"
-      }))
-    })
-  })
-  test('field has been inputted', () => {
+      .post("/api/users")
+      .send(goodUser)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toEqual(
+          expect.objectContaining({
+            firstName: "Sammy",
+            lastName: "Northcoder",
+            email: "fehtefhde@gmail.com",
+            postcode: "m50 4ao",
+            approved: false,
+            userRole: "admin",
+          })
+        );
+      });
+  });
+  test("POST - field has been inputted", () => {
     const badUser = {
       firstName: "Sammy",
       lastName: "Northcoder",
       email: "fehtefhde@gmail.com",
       postcode: "m50 4ao",
       approved: false,
-      userRole: ""
-    }
+      userRole: "",
+    };
     return request(app)
-    .post("/api/users")
-    .send(badUser)
-    .expect(400)
-    .then(({body: {message}}) => {
-      expect(message).toEqual('Please fill out all fields')
-    })
-  })
+      .post("/api/users")
+      .send(badUser)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toEqual("Please fill out all fields");
+      });
+  });
+  test("POST - field has been inputted", () => {
+    const badUser = {
+      firstName: "",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m50 4ao",
+      approved: false,
+      userRole: "visitee",
+    };
+    return request(app)
+      .post("/api/users")
+      .send(badUser)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toEqual("Please fill out all fields");
+      });
+  });
+  test("POST - user only selects from available roles", () => {
+    const badUser = {
+      firstName: "Peter",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m50 4ao",
+      approved: false,
+      userRole: "voluntee",
+    };
+    return request(app)
+      .post("/api/users")
+      .send(badUser)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toEqual("Incorrect input");
+      });
+  });
 });

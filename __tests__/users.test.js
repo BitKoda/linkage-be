@@ -31,18 +31,92 @@ describe("GET /api/users/", () => {
         expect(body).toBeInstanceOf(Array);
       });
   });
-  test('checks instanceOf properties', () => {
+  test("checks instanceOf properties", () => {
     return request(app)
-    .get('/api/users')
-    .expect(200)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        body.forEach((user) => {
+          expect(user).toEqual(
+            expect.objectContaining({
+              _id: expect.any(String),
+              firstName: expect.any(String),
+              lastName: expect.any(String),
+              email: expect.any(String),
+              postcode: expect.any(String),
+              approved: expect.any(Boolean),
+              userRole: expect.any(String),
+              createdAt: expect.any(String),
+              updatedAt: expect.any(String),
+              __v: expect.any(Number),
+            })
+          );
+        });
+      });
+  });
+  test("checks number of keys in a user object", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        body.forEach((user) => {
+          expect(Object.keys(user).length).toEqual(10);
+        });
+      });
+  });
+  test("userRole is a valid role", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        body.forEach((user) => {
+          expect(
+            user.userRole === "admin" ||
+              user.userRole === "volunteer" ||
+              user.userRole === "visitee"
+          ).toBe(true);
+        });
+      });
+  });
+  test('post a new user', () => {
+    const goodUser = {
+      firstName: "Sammy",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m50 4ao",
+      approved: false,
+      userRole: "visitee"
+    }
+    return request(app)
+    .post("/api/users")
+    .send(goodUser)
+    .expect(201)
     .then(({body}) => {
-      body.forEach((user) => {
-        expect(user).
-      })
+      expect(body).toEqual(expect.objectContaining({
+        firstName: "Sammy",
+        lastName: "Northcoder",
+        email: "fehtefhde@gmail.com",
+        postcode: "m50 4ao",
+        approved: false,
+        userRole: "visitee"
+      }))
     })
   })
-// });
-// expect(topic).toEqual(
-//   expect.objectContaining({
-//     slug: expect.any(String),
-//     description: expect.any(String),
+  test('field has been inputted', () => {
+    const badUser = {
+      firstName: "Sammy",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m50 4ao",
+      approved: false,
+      userRole: ""
+    }
+    return request(app)
+    .post("/api/users")
+    .send(badUser)
+    .expect(400)
+    .then(({body: {message}}) => {
+      expect(message).toEqual('Please fill out all fields')
+    })
+  })
+});

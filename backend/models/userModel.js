@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+// console.log('in model')
 const userSchema = mongoose.Schema(
   {
     firstName: {

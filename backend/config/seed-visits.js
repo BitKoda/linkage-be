@@ -24,6 +24,7 @@ const saveUser = () => {
       approved: false,
       userRole: "visitee",
     },
+
     {
       firstName: "Kate",
       lastName: "C",
@@ -40,6 +41,7 @@ const saveUser = () => {
       approved: false,
       userRole: "volunteer",
     }
+
     
   ];
 

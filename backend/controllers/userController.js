@@ -69,15 +69,22 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 
 
-const getVisitByVolunteerId = asyncHandler(async (req, res) => {
+const getVisitByUserId = asyncHandler(async (req, res) => {
 const user = await User.findById(req.params.id);
 if (!user) {
-  res.status(400);
+  res.status(404);
   throw new Error("User not found");
-}
-const visits = await Visit.find({volunteerId: req.params.id})
+} 
+
+if (user.userRole === "volunteer") {
+  const visits = await Visit.find({volunteerId: req.params.id})
 res.status(200).json(visits)
 
+} else {
+  const visits = await Visit.find({visiteeId: req.params.id})
+res.status(200).json(visits)
+
+}
 })
 
 module.exports = {
@@ -86,6 +93,5 @@ module.exports = {
   setUser,
   updateUser,
   deleteUser,
-  getVisitByVolunteerId,
-  
+  getVisitByUserId,
 };

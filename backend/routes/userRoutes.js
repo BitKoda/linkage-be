@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {getUser, getUsers, setUser, updateUser, deleteUser, getVisitByVolunteerId} = require('../controllers/userController')
+const {getUser, getUsers, setUser, updateUser, deleteUser, getVisitByUserId} = require('../controllers/userController')
 
 // router.route('/').get(getUser)
 
@@ -11,7 +11,7 @@ router.route('/:id').put(updateUser).delete(deleteUser).get(getUser)
 
 
 
-router.route('/:id/visits').get(getVisitByVolunteerId)
+router.route('/:id/visits').get(getVisitByUserId)
 
 
 

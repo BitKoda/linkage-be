@@ -209,10 +209,10 @@ describe("DELETE /api/visits/:visitId", () => {
 });
 
 describe("PATCH /api/visits/:visitId", () => {
-  test("status:200, returns updated visit object and increments votes correctly", () => {
+  test("status:200, returns updated visit and updates visitTime", () => {
     const visitId = data.visits[0]._id.toString();
     const testVisit = {
-      visitTime: new Date().getTime(),
+      visitTime: new Date().getMinutes(),
     };
     return request(app)
       .patch(`/api/visits/${visitId}`)
@@ -239,6 +239,19 @@ describe("PATCH /api/visits/:visitId", () => {
       .expect(404)
       .then(({ body: { message } }) => {
         expect(message).toBe("Invalid id");
+      });
+  });
+  test('400: returns "Bad request" when invalid request body', () => {
+    const visitId = data.visits[0]._id.toString();
+    const testVisit = {
+      visitTime: "",
+    };
+    return request(app)
+      .patch(`/api/visits/${visitId}`)
+      .send(testVisit)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Bad request");
       });
   });
 });

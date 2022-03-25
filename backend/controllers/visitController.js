@@ -88,6 +88,11 @@ const updateVisitTime = asyncHandler(async (req, res, next) => {
       res.status(404);
       throw new Error("No visit found");
     });
+  //   console.log(req.body.visitTime.length);
+  if (req.body.visitTime.length === 0) {
+    res.status(400);
+    throw new Error("Bad request");
+  }
 
   const updatedUser = await Visit.findByIdAndUpdate(visitId, req.body, {
     new: true,

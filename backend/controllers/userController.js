@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
 
 const getUsersByID = asyncHandler(async (req, res) => {
-
   const userID = req.params.id;
 
   if (userID.length !== 24) {
@@ -68,6 +67,7 @@ const setUser = asyncHandler(async (req, res, next) => {
       postcode: req.body.postcode,
       approved: false,
       userRole: req.body.userRole,
+      lastVisit: req.body.lastVisit,
     });
     res.status(201).json(user);
   } catch (error) {
@@ -76,11 +76,12 @@ const setUser = asyncHandler(async (req, res, next) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-
-  await User.findById(req.params.id).exec().catch((err) => {
-    res.status(404);
-    throw new Error("User not found");
-  })
+  await User.findById(req.params.id)
+    .exec()
+    .catch((err) => {
+      res.status(404);
+      throw new Error("User not found");
+    });
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });

@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Visit = require("../models/visitModel");
+const User = require("../models/userModel");
 
 const getAllVisits = asyncHandler(async (req, res, next) => {
   try {
@@ -36,7 +37,6 @@ const getVisitByVisitId = asyncHandler(async (req, res, next) => {
 const setVisit = asyncHandler(async (req, res, next) => {
   try {
     const entries = Object.values(req.body);
-
     const valueLength = entries.map((value) => {
       return value.length;
     });
@@ -46,6 +46,26 @@ const setVisit = asyncHandler(async (req, res, next) => {
         throw new Error("Please fill out all fields");
       }
     });
+
+    let userVisit;
+    await User.findById(req.body.visiteeId)
+      .exec()
+      .then((user) => {
+        userVisit = user.lastVisit;
+        userVisit.push(req.body.visitTime);
+      })
+      .catch((err) => {
+        res.status(404);
+        throw new Error("No user found");
+      });
+    const updatedTime = {
+      lastVisit: userVisit,
+    };
+
+    await User.findByIdAndUpdate(req.body.visiteeId, updatedTime, {
+      new: true,
+    });
+
     const postedVisit = await Visit.create({
       volunteerId: req.body.volunteerId,
       visiteeId: req.body.visiteeId,
@@ -61,6 +81,7 @@ const setVisit = asyncHandler(async (req, res, next) => {
     next(error);
   }
 });
+
 const deleteVisit = asyncHandler(async (req, res, next) => {
   const visitId = req.params.visitId;
 
@@ -68,9 +89,30 @@ const deleteVisit = asyncHandler(async (req, res, next) => {
     res.status(404);
     throw new Error("Invalid id");
   }
-
   const visit = await Visit.findById(visitId);
+
+  let userVisit;
+
+  await User.findById(visit.visiteeId)
+    .exec()
+    .then((user) => {
+      userVisit = user.lastVisit;
+      userVisit.pop();
+    })
+    .catch((err) => {
+      res.status(404);
+      throw new Error("No user found");
+    });
+  const updatedTime = {
+    lastVisit: userVisit,
+  };
+
+  await User.findByIdAndUpdate(req.body.visiteeId, updatedTime, {
+    new: true,
+  });
+
   await visit.remove();
+
   res.status(204).json("success");
 });
 

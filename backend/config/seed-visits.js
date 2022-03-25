@@ -6,7 +6,15 @@ const Visit = require("../models/visitModel");
 const User = require("../models/userModel");
 const savedData = {};
 
-const interests = ["Football", "Cooking", "Trainspotting", "Reading", "Boardgames", "Sports", "Movies"]
+const interests = [
+  "Football",
+  "Cooking",
+  "Trainspotting",
+  "Reading",
+  "Boardgames",
+  "Sports",
+  "Movies",
+];
 const saveUser = () => {
   const users = [
     {
@@ -16,7 +24,8 @@ const saveUser = () => {
       postcode: "m50 3ao",
       approved: false,
       userRole: "volunteer",
-      interests: ["Football"]
+      interests: ["Football"],
+      lastVisit: [],
     },
     {
       firstName: "Freddie",
@@ -25,7 +34,8 @@ const saveUser = () => {
       postcode: "m50 5th",
       approved: false,
       userRole: "visitee",
-      interests: ["Sports", "Movies"]
+      interests: ["Sports", "Movies"],
+      lastVisit: [new Date().getTime(), new Date().getTime()],
     },
 
     {
@@ -35,7 +45,8 @@ const saveUser = () => {
       postcode: "m98 5tt",
       approved: false,
       userRole: "visitee",
-      interests: ["Trainspotting", "Movies"]
+      interests: ["Trainspotting", "Movies"],
+      lastVisit: [new Date().getTime()],
     },
     {
       firstName: "Bert",
@@ -44,7 +55,8 @@ const saveUser = () => {
       postcode: "m9 5lt",
       approved: false,
       userRole: "volunteer",
-      interests: ["Cooking", "Reading"]
+      interests: ["Cooking", "Reading"],
+      lastVisit: [],
     },
     {
       firstName: "William",
@@ -53,7 +65,8 @@ const saveUser = () => {
       postcode: "m40 5lt",
       approved: false,
       userRole: "volunteer",
-      interests: ["Sports", "Football"]
+      interests: ["Sports", "Football"],
+      lastVisit: [],
     },
     {
       firstName: "Barry",
@@ -62,6 +75,7 @@ const saveUser = () => {
       postcode: "CW1 5SQ",
       approved: false,
       userRole: "admin",
+      lastVisit: [],
     },
   ];
 

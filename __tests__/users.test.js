@@ -60,7 +60,7 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          expect(Object.keys(user).length).toEqual(10);
+          expect(Object.keys(user).length).toEqual(11);
         });
       });
   });
@@ -189,3 +189,33 @@ describe("GET /api/users/:userId", () => {
       });
   });
 });
+
+describe("PATCH /api/users/:id/interests", () => {
+  test("status:200, returns updated interests", () => {
+    const userId = data.users[0]._id.toString();
+    const testInterests = {
+      interests: ["Football", "Sports"]
+    }
+    return request(app)
+      .patch(`/api/users/${userId}/interests`)
+      .send(testInterests)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          _id: userId,
+          interests: ["Football", "Sports"]
+        });
+      });
+    })
+    test('400: Should return bad request for an empty interests array', () => {
+      const userId = data.users[0]._id.toString();
+      return request(app)
+      .patch(`/api/users/${userId}/interests`)
+      .send({ interests: [] })
+      .expect(400)
+      .then(({ body: {message}}) => {
+        
+       expect(message).toBe("Bad request")
+    });
+  })
+})

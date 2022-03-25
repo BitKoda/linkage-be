@@ -6,6 +6,7 @@ const Visit = require("../models/visitModel");
 const User = require("../models/userModel");
 const savedData = {};
 
+const interests = ["Football", "Cooking", "Trainspotting", "Reading", "Boardgames", "Sports", "Movies"]
 const saveUser = () => {
   const users = [
     {
@@ -15,6 +16,7 @@ const saveUser = () => {
       postcode: "m50 3ao",
       approved: false,
       userRole: "volunteer",
+      interests: ["Football"]
     },
     {
       firstName: "Freddie",
@@ -23,6 +25,7 @@ const saveUser = () => {
       postcode: "m50 5th",
       approved: false,
       userRole: "visitee",
+      interests: ["Sports", "Movies"]
     },
 
     {
@@ -32,6 +35,7 @@ const saveUser = () => {
       postcode: "m98 5tt",
       approved: false,
       userRole: "visitee",
+      interests: ["Trainspotting", "Movies"]
     },
     {
       firstName: "Bert",
@@ -40,6 +44,7 @@ const saveUser = () => {
       postcode: "m9 5lt",
       approved: false,
       userRole: "volunteer",
+      interests: ["Cooking", "Reading"]
     },
     {
       firstName: "William",
@@ -48,6 +53,7 @@ const saveUser = () => {
       postcode: "m40 5lt",
       approved: false,
       userRole: "volunteer",
+      interests: ["Sports", "Football"]
     },
   ];
 

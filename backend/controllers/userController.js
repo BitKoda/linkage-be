@@ -100,6 +100,29 @@ const getVisitByUserId = asyncHandler(async (req, res) => {
   }
 });
 
+const updateUsersInterests = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+
+  if (userId.length !== 24) {
+    res.status(404);
+    throw new Error("Invalid id");
+  }
+  await User.findById(userId)
+    .exec()
+    .catch((error) => {
+      res.status(404);
+      throw new Error("No user found");
+    });
+  if (req.body.interests.length === 0) {
+    res.status(400);
+    throw new Error("Bad request");
+  }
+  const updatedUserInterests = await User.findByIdAndUpdate(userId, req.body, {
+    new: true,
+  });
+  res.status(201).json(updatedUserInterests);
+});
+
 module.exports = {
   getUsersByID,
   getUsers,
@@ -107,4 +130,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getVisitByUserId,
+  updateUsersInterests,
 };

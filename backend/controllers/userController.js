@@ -3,28 +3,11 @@ const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
 
 const getUsersByID = asyncHandler(async (req, res) => {
-  console.log("hello");
-  // const user = await User.findById(req.params.id);
-
-  // console.log(User.findById(req.params.id));
-  // console.log(req.params.id);
-  // if (user.length !== 24) {
-  //   res.status(404);
-  //   throw new Error("Invalid id");
-  // }
-  // if (!user) {
-  //   res.status(400);
-  //   throw new Error("User not found");
-  // }
-  // res.status(200).json(user);
-
   const userID = req.params.id;
-  console.log(userID);
   if (userID.length !== 24) {
     res.status(404);
     throw new Error("Invalid id");
   }
-
   await User.findById(userID)
     .exec()
     .then((user) => {
@@ -41,25 +24,6 @@ const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find(req.body);
   res.status(200).json(users);
 });
-
-// const getUsersByID = asyncHandler(async (req, res, next) => {
-//   // console.log("hello");
-//   const userID = req.params._id;
-//   if (userID.length !== 24) {
-//     res.status(404);
-//     throw new Error("Invalid id");
-//   }
-
-//   await Users.findById(userID)
-//     .exec()
-//     .then((user) => {
-//       res.status(200).send(user);
-//     })
-//     .catch((error) => {
-//       res.status(404);
-//       throw new Error("No user found");
-//     });
-// });
 
 const setUser = asyncHandler(async (req, res, next) => {
   try {

@@ -6,22 +6,35 @@ const getUsersByID = asyncHandler(async (req, res) => {
   const userID = req.params.id;
   if (userID.length !== 24) {
     res.status(404);
-    throw new Error("Invalid id");
+    throw new Error("Invalid ID");
   }
+
   await User.findById(userID)
     .exec()
     .then((user) => {
-      res.status(200).send(user);
+      if (user === null) {
+        throw new Error("No User Found");
+      } else {
+        res.status(200).send(user);
+      }
     })
     .catch((error) => {
       res.status(404);
-      throw new Error("No user found");
+      throw new Error("No User Found");
     });
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  // const users = await User.find({userRole: `${req.query.userRole}`})
-  const users = await User.find(req.body);
+  if (
+    req.query.userRole !== "volunteer" &&
+    req.query.userRole !== "visitee" &&
+    req.query.userRole !== "admin" &&
+    req.query.userRole !== undefined
+  ) {
+    res.status(400);
+    throw new Error("Invalid Pathway");
+  }
+  const users = await User.find({ userRole: `${req.query.userRole}` });
   res.status(200).json(users);
 });
 

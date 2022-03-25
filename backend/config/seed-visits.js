@@ -49,6 +49,14 @@ const saveUser = () => {
       approved: false,
       userRole: "volunteer",
     },
+    {
+      firstName: "Barry",
+      lastName: "Chuckle",
+      email: "2me2u@gmail.com",
+      postcode: "CW1 5SQ",
+      approved: false,
+      userRole: "admin",
+    },
   ];
 
   return User.insertMany(users);

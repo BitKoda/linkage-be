@@ -9,8 +9,6 @@ const {
   getUsersByID,
 } = require("../controllers/userController");
 
-// router.route('/').get(getUser)
-
 router.route("/").get(getUsers).post(setUser);
 
 router.route("/:id").put(updateUser).delete(deleteUser).get(getUsersByID);

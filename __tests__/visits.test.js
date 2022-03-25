@@ -103,7 +103,6 @@ describe("GET /api/users/:id/visits", () => {
         expect(body).toBeInstanceOf(Array);
         expect(body).toHaveLength(2);
         body.forEach((visit) => {
-          //   console.log(visit);
           expect(visit).toEqual(
             expect.objectContaining({
               _id: expect.any(String),
@@ -181,6 +180,33 @@ describe("POST /api/visits/", () => {
         });
       });
   });
+  test("201: should return a visit object ", () => {
+    const testVisit = {
+      volunteerId: data.users[4]._id.toString(),
+      volunteerFirstName: data.users[4].firstName,
+      volunteerLastName: data.users[4].lastName,
+      visiteeId: data.users[1]._id.toString(),
+      visiteeFirstName: data.users[1].firstName,
+      visiteeLastName: data.users[1].lastName,
+      visitTime: new Date().getTime(),
+    };
+    return request(app)
+      .post(`/api/visits`)
+      .send(testVisit)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          _id: expect.any(String),
+          volunteerId: expect.any(String),
+          visiteeFirstName: "Freddie",
+          visiteeLastName: "N",
+          visiteeId: expect.any(String),
+          volunteerFirstName: "William",
+          volunteerLastName: "J",
+          visitTime: expect.any(String),
+        });
+      });
+  });
   test("400: returns message 'Please fill out all fields' ", () => {
     const testVisit = {
       volunteerId: data.users[4]._id.toString(),
@@ -202,7 +228,7 @@ describe("POST /api/visits/", () => {
 });
 
 describe("DELETE /api/visits/:visitId", () => {
-  test("204: should delete a visit object ", () => {
+  test.only("204: should delete a visit object ", () => {
     const visitId = data.visits[3]._id.toString();
     return request(app).delete(`/api/visits/${visitId}`).expect(204);
   });

@@ -251,7 +251,6 @@ describe("Gets a user by a valid role", () => {
   });
 });
 
-
 describe("PATCH - /api/users/userId", () => {
   test("a field has been updated", () => {
     const newLastName = { lastName: "Southcoder" };
@@ -300,8 +299,8 @@ describe("PATCH /api/users/:id/interests", () => {
   test("status:200, returns updated interests", () => {
     const userId = data.users[0]._id.toString();
     const testInterests = {
-      interests: ["Football", "Sports"]
-    }
+      interests: ["Football", "Sports"],
+    };
     return request(app)
       .patch(`/api/users/${userId}/interests`)
       .send(testInterests)
@@ -309,20 +308,18 @@ describe("PATCH /api/users/:id/interests", () => {
       .then(({ body }) => {
         expect(body).toMatchObject({
           _id: userId,
-          interests: ["Football", "Sports"]
+          interests: ["Football", "Sports"],
         });
       });
-    })
-    test('400: Should return bad request for an empty interests array', () => {
-      const userId = data.users[0]._id.toString();
-      return request(app)
+  });
+  test("400: Should return bad request for an empty interests array", () => {
+    const userId = data.users[0]._id.toString();
+    return request(app)
       .patch(`/api/users/${userId}/interests`)
       .send({ interests: [] })
       .expect(400)
-      .then(({ body: {message}}) => {
-        
-       expect(message).toBe("Bad request")
-    });
-  })
-})
-
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Bad request");
+      });
+  });
+});

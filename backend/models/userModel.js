@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema(
     postcode: { type: String, required: [true, "please input postcode"] },
     approved: { type: Boolean, default: false, required: true },
     userRole: { type: String, required: [true, "Please choose role"] },
+    interests: { type: Array, required: [true, "Please choose some Interests"]}
   },
   {
     timestamps: true,

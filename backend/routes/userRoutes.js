@@ -13,7 +13,7 @@ const {
 
 router.route("/").get(getUsers).post(setUser);
 
-router.route("/:id").put(updateUser).delete(deleteUser).get(getUsersByID);
+router.route("/:id").patch(updateUser).delete(deleteUser).get(getUsersByID);
 
 router.route("/:id/visits").get(getVisitByUserId);
 

@@ -3,7 +3,9 @@ const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
 
 const getUsersByID = asyncHandler(async (req, res) => {
+
   const userID = req.params.id;
+
   if (userID.length !== 24) {
     res.status(404);
     throw new Error("Invalid ID");
@@ -74,16 +76,16 @@ const setUser = asyncHandler(async (req, res, next) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user) {
-    res.status(400);
+
+  await User.findById(req.params.id).exec().catch((err) => {
+    res.status(404);
     throw new Error("User not found");
-  }
+  })
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
 
-  res.status(201).json(updatedUser);
+  res.status(200).json(updatedUser);
 });
 
 const deleteUser = asyncHandler(async (req, res) => {

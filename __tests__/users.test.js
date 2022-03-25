@@ -251,6 +251,51 @@ describe("Gets a user by a valid role", () => {
   });
 });
 
+
+describe("PATCH - /api/users/userId", () => {
+  test("a field has been updated", () => {
+    const newLastName = { lastName: "Southcoder" };
+    const userId = data.users[0]._id.toString();
+    return request(app)
+      .patch(`/api/users/${userId}`)
+      .send(newLastName)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.lastName).toBe("Southcoder");
+      });
+  });
+  test("a field has been updated", () => {
+    const newFirstName = { firstName: "Andrew" };
+    const userId = data.users[0]._id.toString();
+    return request(app)
+      .patch(`/api/users/${userId}`)
+      .send(newFirstName)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.firstName).toBe("Andrew");
+      });
+  });
+  test("a field has been updated", () => {
+    const newEmail = { email: "jfjdjfdu@gmail.com" };
+    const userId = data.users[0]._id.toString();
+    return request(app)
+      .patch(`/api/users/${userId}`)
+      .send(newEmail)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.email).toBe("jfjdjfdu@gmail.com");
+      });
+  });
+  test("throws an error if user ID doesnt exist", () => {
+    return request(app)
+      .patch("/api/users/3948576646485979809090789")
+      .expect(404)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("User not found");
+      });
+  });
+});
+
 describe("PATCH /api/users/:id/interests", () => {
   test("status:200, returns updated interests", () => {
     const userId = data.users[0]._id.toString();
@@ -280,3 +325,4 @@ describe("PATCH /api/users/:id/interests", () => {
     });
   })
 })
+

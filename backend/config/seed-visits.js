@@ -63,6 +63,7 @@ const saveVisit = (users) => {
       visiteeId: users[1]._id,
       visiteeFirstName: users[1].firstName,
       visiteeLastName: users[1].lastName,
+      visitTime: new Date().getMinutes(),
     },
     {
       volunteerId: users[2]._id,
@@ -71,6 +72,7 @@ const saveVisit = (users) => {
       visiteeId: users[3]._id,
       visiteeFirstName: users[3].firstName,
       visiteeLastName: users[3].lastName,
+      visitTime: new Date().getMinutes(),
     },
     {
       volunteerId: users[0]._id,
@@ -79,6 +81,7 @@ const saveVisit = (users) => {
       visiteeId: users[2]._id,
       visiteeFirstName: users[2].firstName,
       visiteeLastName: users[2].lastName,
+      visitTime: new Date().getMinutes(),
     },
     {
       volunteerId: users[3]._id,
@@ -87,6 +90,7 @@ const saveVisit = (users) => {
       visiteeId: users[1]._id,
       visiteeFirstName: users[1].firstName,
       visiteeLastName: users[1].lastName,
+      visitTime: new Date().getMinutes(),
     },
   ];
   return Visit.insertMany(visits);

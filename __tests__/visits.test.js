@@ -116,6 +116,7 @@ describe("GET /api/users/:id/visits", () => {
               __v: expect.any(Number),
               createdAt: expect.any(String),
               updatedAt: expect.any(String),
+              visitTime: expect.any(String),
             })
           );
         });
@@ -161,18 +162,23 @@ describe("POST /api/visits/", () => {
       visiteeId: data.users[2]._id.toString(),
       visiteeFirstName: data.users[2].firstName,
       visiteeLastName: data.users[2].lastName,
+      visitTime: new Date().getTime(),
     };
-
     return request(app)
       .post(`/api/visits`)
       .send(testVisit)
       .expect(200)
       .then(({ body }) => {
-        expect(body).toBeInstanceOf(Object);
-        expect(body.visiteeFirstName).toBe("Kate");
-        expect(body.visiteeLastName).toBe("C");
-        expect(body.volunteerFirstName).toBe("William");
-        expect(body.volunteerLastName).toBe("J");
+        expect(body).toMatchObject({
+          _id: expect.any(String),
+          volunteerId: expect.any(String),
+          visiteeFirstName: "Kate",
+          visiteeLastName: "C",
+          visiteeId: expect.any(String),
+          volunteerFirstName: "William",
+          volunteerLastName: "J",
+          visitTime: expect.any(String),
+        });
       });
   });
   test("400: returns message 'Please fill out all fields' ", () => {
@@ -199,5 +205,40 @@ describe("DELETE /api/visits/:visitId", () => {
   test("204: should delete a visit object ", () => {
     const visitId = data.visits[3]._id.toString();
     return request(app).delete(`/api/visits/${visitId}`).expect(204);
+  });
+});
+
+describe("PATCH /api/visits/:visitId", () => {
+  test("status:200, returns updated visit object and increments votes correctly", () => {
+    const visitId = data.visits[0]._id.toString();
+    const testVisit = {
+      visitTime: new Date().getTime(),
+    };
+    return request(app)
+      .patch(`/api/visits/${visitId}`)
+      .send(testVisit)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          _id: expect.any(String),
+          visitTime: expect.any(String),
+        });
+      });
+  });
+  test('404: non-existent visitId returns "No visit found"', () => {
+    return request(app)
+      .patch(`/api/visits/fjh473472222222222222222`)
+      .expect(404)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("No visit found");
+      });
+  });
+  test('404: non-existent visitId returns "Invalid id"', () => {
+    return request(app)
+      .patch(`/api/visits/fjh473472`)
+      .expect(404)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Invalid id");
+      });
   });
 });

@@ -53,6 +53,7 @@ const setVisit = asyncHandler(async (req, res, next) => {
       volunteerLastName: req.body.volunteerLastName,
       visiteeFirstName: req.body.visiteeFirstName,
       visiteeLastName: req.body.visiteeLastName,
+      visitTime: req.body.visitTime,
     });
 
     res.status(200).json(postedVisit);
@@ -69,9 +70,35 @@ const deleteVisit = asyncHandler(async (req, res, next) => {
   }
 
   const visit = await Visit.findById(visitId);
-
   await visit.remove();
   res.status(204).json("success");
+});
+
+const updateVisitTime = asyncHandler(async (req, res, next) => {
+  const visitId = req.params.visitId;
+
+  if (visitId.length !== 24) {
+    res.status(404);
+    throw new Error("Invalid id");
+  }
+  await Visit.findById(visitId)
+    .exec()
+    .then((visit) => {})
+    .catch((error) => {
+      res.status(404);
+      throw new Error("No visit found");
+    });
+  //   console.log(req.body.visitTime.length);
+  if (req.body.visitTime.length === 0) {
+    res.status(400);
+    throw new Error("Bad request");
+  }
+
+  const updatedUser = await Visit.findByIdAndUpdate(visitId, req.body, {
+    new: true,
+  });
+
+  res.status(201).json(updatedUser);
 });
 
 module.exports = {
@@ -79,4 +106,5 @@ module.exports = {
   getVisitByVisitId,
   setVisit,
   deleteVisit,
+  updateVisitTime,
 };

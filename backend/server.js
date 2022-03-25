@@ -20,9 +20,10 @@ app.use("/api/visits", require("./routes/visitsRoutes"));
 
 app.use(handleCustomErrors);
 app.use(errorHandler);
-app.listen(port, () => console.log(`Server started on port ${port}`));
 
 app.all("/*", (req, res) => {
   res.status(404).send({ message: "Path not found" });
 });
+
+app.listen(port, () => console.log(`Server started on port ${port}`));
 module.exports = app;

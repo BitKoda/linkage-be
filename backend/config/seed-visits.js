@@ -6,6 +6,7 @@ const Visit = require("../models/visitModel");
 const User = require("../models/userModel");
 const savedData = {};
 
+const interests = ["Football", "Cooking", "Trainspotting", "Reading", "Boardgames", "Sports", "Movies"]
 const saveUser = () => {
   const users = [
     {
@@ -15,6 +16,7 @@ const saveUser = () => {
       postcode: "m50 3ao",
       approved: false,
       userRole: "volunteer",
+      interests: ["Football"]
     },
     {
       firstName: "Freddie",
@@ -23,6 +25,7 @@ const saveUser = () => {
       postcode: "m50 5th",
       approved: false,
       userRole: "visitee",
+      interests: ["Sports", "Movies"]
     },
 
     {
@@ -32,6 +35,7 @@ const saveUser = () => {
       postcode: "m98 5tt",
       approved: false,
       userRole: "visitee",
+      interests: ["Trainspotting", "Movies"]
     },
     {
       firstName: "Bert",
@@ -40,6 +44,7 @@ const saveUser = () => {
       postcode: "m9 5lt",
       approved: false,
       userRole: "volunteer",
+      interests: ["Cooking", "Reading"]
     },
     {
       firstName: "William",
@@ -48,6 +53,15 @@ const saveUser = () => {
       postcode: "m40 5lt",
       approved: false,
       userRole: "volunteer",
+      interests: ["Sports", "Football"]
+    },
+    {
+      firstName: "Barry",
+      lastName: "Chuckle",
+      email: "2me2u@gmail.com",
+      postcode: "CW1 5SQ",
+      approved: false,
+      userRole: "admin",
     },
   ];
 
@@ -63,6 +77,7 @@ const saveVisit = (users) => {
       visiteeId: users[1]._id,
       visiteeFirstName: users[1].firstName,
       visiteeLastName: users[1].lastName,
+      visitTime: new Date().getMinutes(),
     },
     {
       volunteerId: users[2]._id,
@@ -71,6 +86,7 @@ const saveVisit = (users) => {
       visiteeId: users[3]._id,
       visiteeFirstName: users[3].firstName,
       visiteeLastName: users[3].lastName,
+      visitTime: new Date().getMinutes(),
     },
     {
       volunteerId: users[0]._id,
@@ -79,6 +95,7 @@ const saveVisit = (users) => {
       visiteeId: users[2]._id,
       visiteeFirstName: users[2].firstName,
       visiteeLastName: users[2].lastName,
+      visitTime: new Date().getMinutes(),
     },
     {
       volunteerId: users[3]._id,
@@ -87,6 +104,7 @@ const saveVisit = (users) => {
       visiteeId: users[1]._id,
       visiteeFirstName: users[1].firstName,
       visiteeLastName: users[1].lastName,
+      visitTime: new Date().getMinutes(),
     },
   ];
   return Visit.insertMany(visits);

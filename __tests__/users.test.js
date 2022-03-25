@@ -5,8 +5,7 @@ const app = require("../backend/server");
 const dotenv = require("dotenv").config();
 const colors = require("colors");
 const saveTestData = require("../backend/config/seed-visits.js");
-const connectDB = require("../backend/config/db.js");
-// const { beforeEach, expect } = require("@jest/globals");
+
 let data;
 beforeEach(async () => {
   //   connectDB();
@@ -60,7 +59,7 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          expect(Object.keys(user).length).toEqual(10);
+          expect(Object.keys(user).length).toEqual(11);
         });
       });
   });
@@ -185,10 +184,73 @@ describe("GET /api/users/:userId", () => {
       .get(`/api/users/1`)
       .expect(404)
       .then(({ body: { message } }) => {
-        expect(message).toBe("Invalid id");
+        expect(message).toBe("Invalid ID");
+      });
+  });
+  test("returns a 404 when an incorrect user ID is passed in", () => {
+    return request(app)
+      .get(`/api/users/aaaaaaaaaaaaaaaaaaaaaaaa`)
+      .expect(404)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("No User Found");
       });
   });
 });
+
+describe("Gets a user by a valid role", () => {
+  test("should return status 200 and all users with a userRole of visitee", () => {
+    return request(app)
+      .get(`/api/users?userRole=visitee`)
+      .expect(200)
+      .then(({ body }) => {
+        body.forEach((user) => {
+          expect(user).toEqual(
+            expect.objectContaining({
+              userRole: "visitee",
+            })
+          );
+        });
+      });
+  });
+  test("should return status 200 and all users with a userRole of volunteer", () => {
+    return request(app)
+      .get(`/api/users?userRole=volunteer`)
+      .expect(200)
+      .then(({ body }) => {
+        body.forEach((user) => {
+          expect(user).toEqual(
+            expect.objectContaining({
+              userRole: "volunteer",
+            })
+          );
+        });
+      });
+  });
+  test("should return status 200 and all users with a userRole of admin", () => {
+    return request(app)
+      .get(`/api/users?userRole=admin`)
+      .expect(200)
+      .then(({ body }) => {
+        body.forEach((user) => {
+          expect(user).toEqual(
+            expect.objectContaining({
+              userRole: "admin",
+            })
+          );
+        });
+      });
+  });
+  test("should return status 400 where an invalid role has been searched", () => {
+    const userRole = "legend";
+    return request(app)
+      .get(`/api/users?userRole=${userRole}`)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toBe("Invalid Pathway");
+      });
+  });
+});
+
 
 describe("PATCH - /api/users/userId", () => {
   test("a field has been updated", () => {
@@ -233,3 +295,34 @@ describe("PATCH - /api/users/userId", () => {
       });
   });
 });
+
+describe("PATCH /api/users/:id/interests", () => {
+  test("status:200, returns updated interests", () => {
+    const userId = data.users[0]._id.toString();
+    const testInterests = {
+      interests: ["Football", "Sports"]
+    }
+    return request(app)
+      .patch(`/api/users/${userId}/interests`)
+      .send(testInterests)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          _id: userId,
+          interests: ["Football", "Sports"]
+        });
+      });
+    })
+    test('400: Should return bad request for an empty interests array', () => {
+      const userId = data.users[0]._id.toString();
+      return request(app)
+      .patch(`/api/users/${userId}/interests`)
+      .send({ interests: [] })
+      .expect(400)
+      .then(({ body: {message}}) => {
+        
+       expect(message).toBe("Bad request")
+    });
+  })
+})
+

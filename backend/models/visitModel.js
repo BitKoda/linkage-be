@@ -27,6 +27,10 @@ const visitSchema = Schema(
       type: Schema.Types.String,
       required: [true, "Please input last name"],
     },
+    visitTime: {
+      type: Schema.Types.Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

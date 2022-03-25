@@ -8,27 +8,37 @@ const getUsersByID = asyncHandler(async (req, res) => {
 
   if (userID.length !== 24) {
     res.status(404);
-    throw new Error("Invalid id");
+    throw new Error("Invalid ID");
   }
 
   await User.findById(userID)
     .exec()
     .then((user) => {
-      res.status(200).send(user);
+      if (user === null) {
+        throw new Error("No User Found");
+      } else {
+        res.status(200).send(user);
+      }
     })
     .catch((error) => {
       res.status(404);
-      throw new Error("No user found");
+      throw new Error("No User Found");
     });
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  // const users = await User.find({userRole: `${req.query.userRole}`})
-  const users = await User.find(req.body);
+  if (
+    req.query.userRole !== "volunteer" &&
+    req.query.userRole !== "visitee" &&
+    req.query.userRole !== "admin" &&
+    req.query.userRole !== undefined
+  ) {
+    res.status(400);
+    throw new Error("Invalid Pathway");
+  }
+  const users = await User.find({ userRole: `${req.query.userRole}` });
   res.status(200).json(users);
 });
-
-
 
 const setUser = asyncHandler(async (req, res, next) => {
   try {
@@ -105,6 +115,29 @@ const getVisitByUserId = asyncHandler(async (req, res) => {
   }
 });
 
+const updateUsersInterests = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+
+  if (userId.length !== 24) {
+    res.status(404);
+    throw new Error("Invalid id");
+  }
+  await User.findById(userId)
+    .exec()
+    .catch((error) => {
+      res.status(404);
+      throw new Error("No user found");
+    });
+  if (req.body.interests.length === 0) {
+    res.status(400);
+    throw new Error("Bad request");
+  }
+  const updatedUserInterests = await User.findByIdAndUpdate(userId, req.body, {
+    new: true,
+  });
+  res.status(201).json(updatedUserInterests);
+});
+
 module.exports = {
   getUsersByID,
   getUsers,
@@ -112,4 +145,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getVisitByUserId,
+  updateUsersInterests,
 };

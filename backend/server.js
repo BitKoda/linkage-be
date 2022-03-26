@@ -1,6 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-//const port = process.env.PORT || 9000;
+const port = process.env.PORT || 9000;
 const app = express();
 const colors = require("colors");
 const {
@@ -8,7 +8,7 @@ const {
   handleCustomErrors,
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
-const port = Math.floor(Math.random() * 10000);
+// const port = Math.floor(Math.random() * 10000);
 
 connectDB();
 
@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/visits", require("./routes/visitsRoutes"));
+app.use("/api", require("./routes/endpointsRoutes"));
 
 app.use(handleCustomErrors);
 app.use(errorHandler);

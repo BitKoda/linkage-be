@@ -24,7 +24,7 @@ afterAll(() => {
 describe("GET /api/users/", () => {
   test("GET - returns an object with all users", () => {
     return request(app)
-      .get("/api/users")
+      .get("/api/users/")
       .expect(200)
       .then(({ body }) => {
         expect(body).toBeInstanceOf(Array);
@@ -197,10 +197,11 @@ describe("GET /api/users/:userId", () => {
   });
 });
 
-describe("Gets a user by a valid role", () => {
+describe("GET - /api/users?userRole=:userRole", () => {
   test("should return status 200 and all users with a userRole of visitee", () => {
+    const validRole = "visitee";
     return request(app)
-      .get(`/api/users?userRole=visitee`)
+      .get(`/api/users?userRole=${validRole}`)
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
@@ -213,8 +214,9 @@ describe("Gets a user by a valid role", () => {
       });
   });
   test("should return status 200 and all users with a userRole of volunteer", () => {
+    const validRole = "volunteer";
     return request(app)
-      .get(`/api/users?userRole=volunteer`)
+      .get(`/api/users?userRole=${validRole}`)
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
@@ -227,8 +229,9 @@ describe("Gets a user by a valid role", () => {
       });
   });
   test("should return status 200 and all users with a userRole of admin", () => {
+    const validRole = "admin";
     return request(app)
-      .get(`/api/users?userRole=admin`)
+      .get(`/api/users?userRole=${validRole}`)
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
@@ -244,9 +247,26 @@ describe("Gets a user by a valid role", () => {
     const userRole = "legend";
     return request(app)
       .get(`/api/users?userRole=${userRole}`)
-      .expect(400)
+      .expect(404)
       .then(({ body: { message } }) => {
         expect(message).toBe("Invalid Pathway");
       });
+  });
+  describe("Deletes a user", () => {
+    test("should return status 204 when a user is successfully deleted", () => {
+      const userId = data.users[0]._id;
+      const originalUsersLength = data.users.length;
+      return request(app)
+        .delete(`/api/users/${userId}`)
+        .expect(204)
+        .then(() => {
+          return request(app)
+            .get("/api/users")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.length).toEqual(originalUsersLength - 1);
+            });
+        });
+    });
   });
 });

@@ -25,17 +25,24 @@ const getUsersByID = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  if (
-    req.query.userRole !== "volunteer" &&
-    req.query.userRole !== "visitee" &&
-    req.query.userRole !== "admin" &&
-    req.query.userRole !== undefined
-  ) {
-    res.status(400);
-    throw new Error("Invalid Pathway");
+  if (Object.keys(req.query).length === 0) {
+    const users = await User.find();
+    res.status(200).json(users);
+  } else {
+    if (
+      req.query.userRole !== "volunteer" &&
+      req.query.userRole !== "visitee" &&
+      req.query.userRole !== "admin"
+    ) {
+      res.status(404);
+      throw new Error("Invalid Pathway");
+    } else {
+      const users = await User.find({
+        userRole: `${req.query.userRole}`,
+      });
+      res.status(200).json(users);
+    }
   }
-  const users = await User.find({ userRole: `${req.query.userRole}` });
-  res.status(200).json(users);
 });
 
 const setUser = asyncHandler(async (req, res, next) => {
@@ -94,7 +101,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 
   await user.remove();
-  res.status(200).json({ id: req.params.id });
+  res.status(204).json({ id: req.params.id });
 });
 
 const getVisitByUserId = asyncHandler(async (req, res) => {

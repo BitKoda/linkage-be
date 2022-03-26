@@ -14,5 +14,4 @@ router
   .get(getVisitByVisitId)
   .delete(deleteVisit)
   .patch(updateVisitTime);
-
 module.exports = router;

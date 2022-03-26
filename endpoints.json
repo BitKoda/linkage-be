@@ -1,0 +1,218 @@
+{
+  "GET /api": {
+    "description": "serves a json representation of all the available endpoints of the api"
+  },
+  "GET /api/users?userRole=volunteer||visitee||admin": {
+    "description": "serves an array of all users filtered by userRole",
+    "queries": ["userRole"],
+    "exampleResponse": [
+      {
+        "interests": [],
+        "lastVisit": [],
+        "_id": "6239bf7c17c6c9886aed42d8",
+        "firstName": "David",
+        "lastName": "M",
+        "email": "NEW@gmail.com",
+        "postcode": "m40 5tg",
+        "approved": false,
+        "userRole": "volunteer",
+        "createdAt": "2022-03-22T12:22:20.107Z",
+        "updatedAt": "2022-03-22T12:22:20.107Z",
+        "__v": 0
+      }
+    ]
+  },
+  "GET /api/users/:userId": {
+    "description": "serves a user object from the id requested",
+    "queries": [],
+    "exampleResponse": {
+      "_id": "623edf3b06c70a7f36281083",
+      "firstName": "William",
+      "lastName": "J",
+      "email": "will@gmail.com",
+      "postcode": "m40 5lt",
+      "approved": false,
+      "userRole": "visitee",
+      "interests": [],
+      "lastVisit": ["14182940000"],
+      "createdAt": "2022-03-26T09:39:07.336Z",
+      "updatedAt": "2022-03-26T09:55:59.008Z",
+      "__v": 0
+    }
+  },
+  "PATCH /api/users/:userId": {
+    "description": "serves a user object with the updated properties. It accepts either one property at a time or many of them at the same time",
+    "Properties to be updated": ["firstName", "lastName", "email", "postcode"],
+    "exampleRequest": { "firstName": "Alex" },
+    "exampleResponse": {
+      "_id": "623edf3b06c70a7f36281083",
+      "firstName": "Alex",
+      "lastName": "J",
+      "email": "will@gmail.com",
+      "postcode": "m40 5lt",
+      "approved": false,
+      "userRole": "visitee",
+      "interests": [],
+      "lastVisit": ["14182940000"],
+      "createdAt": "2022-03-26T09:39:07.336Z",
+      "updatedAt": "2022-03-26T09:55:59.008Z",
+      "__v": 0
+    }
+  },
+  "PATCH /api/users/:id/interests": {
+    "description": "serves a user object with the updated interests",
+    "Properties to be updated": ["interests"],
+    "exampleRequest": { "interests": ["Football", "Sports"] },
+    "exampleResponse": {
+      "_id": "623edf3b06c70a7f36281083",
+      "firstName": "Alex",
+      "lastName": "J",
+      "email": "will@gmail.com",
+      "postcode": "m40 5lt",
+      "approved": false,
+      "userRole": "visitee",
+      "interests": ["Football", "Sports"],
+      "lastVisit": ["14182940000"],
+      "createdAt": "2022-03-26T09:39:07.336Z",
+      "updatedAt": "2022-03-26T09:55:59.008Z",
+      "__v": 0
+    }
+  },
+  "POST /api/users": {
+    "description": "serves a new user object. Interests property will be created automatically as an empty array. You can either leave it empty and update interests later or make the user choose their interests as they sign up",
+    "queries": [],
+    "exampleRequest": {
+      "firstName": "Sammy",
+      "lastName": "Northcoder",
+      "email": "fehtefhde@gmail.com",
+      "postcode": "m50 4ao",
+      "approved": false,
+      "userRole": "volunteer"
+    },
+    "exampleResponse": {
+      "firstName": "William",
+      "lastName": "J",
+      "email": "will@gmail.com",
+      "postcode": "m40 5lt",
+      "approved": false,
+      "userRole": "visitee",
+      "interests": [],
+      "lastVisit": [],
+      "_id": "623eec8aa70e0b048e7cf0c0",
+      "createdAt": "2022-03-26T10:35:54.054Z",
+      "updatedAt": "2022-03-26T10:35:54.054Z",
+      "__v": 0
+    }
+  },
+  "DELETE /api/users/:userId": {
+    "description": "deletes selected user from the array of all users",
+    "queries": [],
+    "exampleResponse": { "id": "userId" }
+  },
+  "GET /api/users/:userId/visits": {
+    "description": "serves an array of all visits corresponding to user",
+    "queries": [],
+    "exampleResponse": [
+      {
+        "_id": "623ee32f06c70a7f36281095",
+        "volunteerId": "6239bfae17c6c9886aed42da",
+        "volunteerFirstName": "Andy",
+        "volunteerLastName": "P",
+        "visiteeId": "623edf3b06c70a7f36281083",
+        "visiteeFirstName": "William",
+        "visiteeLastName": "J",
+        "visitTime": "1970-06-14T03:42:20.000Z",
+        "createdAt": "2022-03-26T09:55:59.089Z",
+        "updatedAt": "2022-03-26T09:55:59.089Z",
+        "__v": 0
+      }
+    ]
+  },
+  "GET /api/visits": {
+    "description": "serves an array of all visits",
+    "queries": [],
+    "exampleResponse": [
+      {
+        "_id": "623ee32f06c70a7f36281095",
+        "volunteerId": "6239bfae17c6c9886aed42da",
+        "volunteerFirstName": "Andy",
+        "volunteerLastName": "P",
+        "visiteeId": "623edf3b06c70a7f36281083",
+        "visiteeFirstName": "William",
+        "visiteeLastName": "J",
+        "visitTime": "1970-06-14T03:42:20.000Z",
+        "createdAt": "2022-03-26T09:55:59.089Z",
+        "updatedAt": "2022-03-26T09:55:59.089Z",
+        "__v": 0
+      }
+    ]
+  },
+  "POST /api/visits": {
+    "description": "serves a new visit object. It also updates the visitee's property 'lastVisit' at the same time by pushing visitTime to it",
+    "queries": [],
+    "exampleRequest": {
+      "volunteerId": "6239bfae17c6c9886aed42da",
+      "volunteerFirstName": "Andy",
+      "volunteerLastName": "P",
+      "visiteeId": "623edf3b06c70a7f36281083",
+      "visiteeFirstName": "William",
+      "visiteeLastName": "J",
+      "visitTime": "14182940000 (new Date().getTIme())"
+    },
+    "exampleResponse": {
+      "volunteerId": "6239bfae17c6c9886aed42da",
+      "volunteerFirstName": "Andy",
+      "volunteerLastName": "P",
+      "visiteeId": "623edf3b06c70a7f36281083",
+      "visiteeFirstName": "William",
+      "visiteeLastName": "J",
+      "visitTime": "1970-06-14T03:42:20.000Z",
+      "_id": "623ee32f06c70a7f36281095",
+      "createdAt": "2022-03-26T09:55:59.089Z",
+      "updatedAt": "2022-03-26T09:55:59.089Z",
+      "__v": 0
+    }
+  },
+  "GET /api/visits/:visitId": {
+    "description": "serves a visit object from the id requested",
+    "queries": [],
+    "exampleResponse": {
+      "_id": "623ee32f06c70a7f36281095",
+      "volunteerId": "6239bfae17c6c9886aed42da",
+      "volunteerFirstName": "Andy",
+      "volunteerLastName": "P",
+      "visiteeId": "623edf3b06c70a7f36281083",
+      "visiteeFirstName": "William",
+      "visiteeLastName": "J",
+      "visitTime": "1970-06-14T03:42:20.000Z",
+      "createdAt": "2022-03-26T09:55:59.089Z",
+      "updatedAt": "2022-03-26T09:55:59.089Z",
+      "__v": 0
+    }
+  },
+  "DELETE /api/visits/:visitId": {
+    "description": "deletes selected visit from the array of all visits",
+    "queries": [],
+    "exampleResponse": { "id": "visitId" }
+  },
+  "PATCH /api/visits/:visitId": {
+    "description": "serves a visit object with the updated visitTime property.",
+    "Properties to be updated": ["visitTime"],
+    "exampleRequest": {
+      "visitTime": "new time in a Day format, ex. new Date().getTime + 30 minutes"
+    },
+    "exampleResponse": {
+      "volunteerId": "6239bfae17c6c9886aed42da",
+      "volunteerFirstName": "Andy",
+      "volunteerLastName": "P",
+      "visiteeId": "623edf3b06c70a7f36281083",
+      "visiteeFirstName": "William",
+      "visiteeLastName": "J",
+      "visitTime": "1970-06-14T03:42:20.000Z",
+      "_id": "623ef4db214f9aef97bb49b2",
+      "createdAt": "2022-03-26T11:11:23.047Z",
+      "updatedAt": "2022-03-26T11:11:23.047Z",
+      "__v": 0
+    }
+  }
+}

@@ -113,7 +113,7 @@ const deleteVisit = asyncHandler(async (req, res, next) => {
 
   await visit.remove();
 
-  res.status(204).json("success");
+  res.status(204).json({ id: req.params.visitId });
 });
 
 const updateVisitTime = asyncHandler(async (req, res, next) => {

@@ -251,7 +251,7 @@ describe("Gets a user by a valid role", () => {
   });
 });
 
-describe("PATCH - /api/users/userId", () => {
+describe("PATCH - /api/users/:userId", () => {
   test("a field has been updated", () => {
     const newLastName = { lastName: "Southcoder" };
     const userId = data.users[0]._id.toString();

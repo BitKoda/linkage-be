@@ -3,10 +3,8 @@ const axios = require("axios");
 const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
 const bcrypt = require("bcryptjs");
-// const userServices = require("./authController");
 var jwt = require("jsonwebtoken");
-// const auth = require("../middleware/jwt");
-// const config = require("../config/auth.config");
+
 
 const getUsersByID = asyncHandler(async (req, res) => {
   const userID = req.params.id;

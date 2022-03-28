@@ -21,6 +21,8 @@ const userSchema = mongoose.Schema(
       type: Array,
       required: false,
     },
+    latitude: { type: Number },
+    longitude: { type: Number }    
   },
 
   {

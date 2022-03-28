@@ -12,6 +12,7 @@
   "author": "Team Reactors",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",

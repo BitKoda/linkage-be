@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const axios = require("axios")
 const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
 
@@ -67,6 +68,26 @@ const setUser = asyncHandler(async (req, res, next) => {
       throw new Error("Incorrect input");
     }
 
+    const pcode = req.body.postcode.replace(' ', '');
+    const url = `http://api.getthedata.com/postcode/${pcode}`;
+
+    let longitude;
+    let latitude;
+
+    await axios.get(url)
+    .then((result) => {
+      if (result.data.status === "match") {
+        longitude = result.data.data.longitude;
+        latitude = result.data.data.latitude;
+      } else if (result.data.status === "no_match") {
+        res.status(400);
+        throw new Error("Bad request: postcode invalid");
+      }
+    }).catch((err) => {
+      res.status(400);
+      throw new Error("Bad request: postcode invalid");
+    });
+    
     const user = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -75,6 +96,8 @@ const setUser = asyncHandler(async (req, res, next) => {
       approved: false,
       userRole: req.body.userRole,
       lastVisit: req.body.lastVisit,
+      latitude: latitude,
+      longitude: longitude,
     });
     res.status(201).json(user);
   } catch (error) {

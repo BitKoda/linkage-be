@@ -59,7 +59,7 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          expect(Object.keys(user).length).toEqual(11);
+          expect(Object.keys(user).length).toEqual(12);
         });
       });
   });
@@ -85,7 +85,7 @@ describe("POST /api/users", () => {
       firstName: "Sammy",
       lastName: "Northcoder",
       email: "fehtefhde@gmail.com",
-      postcode: "m50 4ao",
+      postcode: "M419PW",
       approved: false,
       userRole: "admin",
     };
@@ -99,7 +99,7 @@ describe("POST /api/users", () => {
             firstName: "Sammy",
             lastName: "Northcoder",
             email: "fehtefhde@gmail.com",
-            postcode: "m50 4ao",
+            postcode: "M419PW",
             approved: false,
             userRole: "admin",
           })
@@ -111,7 +111,7 @@ describe("POST /api/users", () => {
       firstName: "Sammy",
       lastName: "Northcoder",
       email: "fehtefhde@gmail.com",
-      postcode: "m50 4ao",
+      postcode: "m504ao",
       approved: false,
       userRole: "",
     };
@@ -123,12 +123,29 @@ describe("POST /api/users", () => {
         expect(message).toEqual("Please fill out all fields");
       });
   });
+  test("POST - 400: invalid postcode", () => {
+    const badPostCode = {
+      firstName: "Sammy",
+      lastName: "Northcoder",
+      email: "fehtefhde@gmail.com",
+      postcode: "m504ao",
+      approved: false,
+      userRole: "volunteer",
+    };
+    return request(app)
+      .post("/api/users")
+      .send(badPostCode)
+      .expect(400)
+      .then(({ body: { message } }) => {
+        expect(message).toEqual("Bad request: postcode invalid");
+      });
+  });
   test("POST - field has been inputted", () => {
     const badUser = {
       firstName: "",
       lastName: "Northcoder",
       email: "fehtefhde@gmail.com",
-      postcode: "m50 4ao",
+      postcode: "m504ao",
       approved: false,
       userRole: "visitee",
     };

@@ -9,13 +9,9 @@ const {
   handleCustomErrors,
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
-
 // const port = Math.floor(Math.random() * 10000);
 const authJwt = require("./middleware/jwt");
 
-// const corsOptions = {
-//   origin: "http://localhost:5000",
-// };
 app.use(cors());
 
 connectDB();

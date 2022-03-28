@@ -134,6 +134,8 @@
       "lastName": "J",
       "email": "will@gmail.com",
       "postcode": "m40 5lt",
+      "longitude": 53.2675,
+      "latitude": -2.2478,
       "approved": false,
       "userRole": "visitee",
       "interests": [],

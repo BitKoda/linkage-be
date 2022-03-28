@@ -2,6 +2,11 @@ const asyncHandler = require("express-async-handler");
 const axios = require("axios")
 const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
+const bcrypt = require("bcryptjs");
+// const userServices = require("./authController");
+var jwt = require("jsonwebtoken");
+// const auth = require("../middleware/jwt");
+// const config = require("../config/auth.config");
 
 const getUsersByID = asyncHandler(async (req, res) => {
   const userID = req.params.id;
@@ -67,6 +72,9 @@ const setUser = asyncHandler(async (req, res, next) => {
       res.status(400);
       throw new Error("Incorrect input");
     }
+    const { password } = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    req.body.password = bcrypt.hashSync(password, salt);
 
     const pcode = req.body.postcode.replace(' ', '');
     const url = `http://api.getthedata.com/postcode/${pcode}`;
@@ -89,6 +97,18 @@ const setUser = asyncHandler(async (req, res, next) => {
     });
     
     const user = await User.create({
+
+    await User.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      postcode: req.body.postcode,
+      approved: false,
+      userRole: req.body.userRole,
+      lastVisit: req.body.lastVisit,
+      password: req.body.password,
+    });
+    res.status(201).json({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -99,7 +119,6 @@ const setUser = asyncHandler(async (req, res, next) => {
       latitude: latitude,
       longitude: longitude,
     });
-    res.status(201).json(user);
   } catch (error) {
     next(error);
   }
@@ -169,6 +188,43 @@ const updateUsersInterests = asyncHandler(async (req, res, next) => {
   res.status(201).json(updatedUserInterests);
 });
 
+const loginUser = asyncHandler(async (req, res, next) => {
+  await User.findOne({ email: req.body.email })
+    .exec()
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+      const passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!",
+        });
+      }
+      const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
+        expiresIn: 86400, // 24 hours
+      });
+      res.setHeader("x-access-control", token).status(200).send({
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        postcode: user.postcode,
+        approved: user.approved,
+        userRole: user.userRole,
+        lastVisit: user.lastVisit,
+        accessToken: token,
+      });
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 module.exports = {
   getUsersByID,
   getUsers,
@@ -177,4 +233,5 @@ module.exports = {
   deleteUser,
   getVisitByUserId,
   updateUsersInterests,
+  loginUser,
 };

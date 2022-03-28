@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema(
       required: [true, "Please input last name"],
     },
     email: { type: String, required: [true, "please input email"] },
+    password: { type: String, required: [true, "please input password"] },
     postcode: { type: String, required: [true, "please input postcode"] },
     approved: { type: Boolean, default: false, required: true },
     userRole: { type: String, required: [true, "Please choose role"] },
@@ -29,5 +30,13 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    delete returnedObject.__v;
+
+    delete returnedObject.password;
+  },
+});
 
 module.exports = mongoose.model("User", userSchema);

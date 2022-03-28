@@ -26,6 +26,7 @@ const saveUser = () => {
       userRole: "volunteer",
       interests: ["Football"],
       lastVisit: [],
+      password: "testPassword",
     },
     {
       firstName: "Freddie",
@@ -36,6 +37,7 @@ const saveUser = () => {
       userRole: "visitee",
       interests: ["Sports", "Movies"],
       lastVisit: [new Date().getTime(), new Date().getTime()],
+      password: "testPassword",
     },
 
     {
@@ -47,6 +49,7 @@ const saveUser = () => {
       userRole: "visitee",
       interests: ["Trainspotting", "Movies"],
       lastVisit: [new Date().getTime()],
+      password: "testPassword",
     },
     {
       firstName: "Bert",
@@ -57,6 +60,7 @@ const saveUser = () => {
       userRole: "volunteer",
       interests: ["Cooking", "Reading"],
       lastVisit: [],
+      password: "testPassword",
     },
     {
       firstName: "William",
@@ -67,6 +71,7 @@ const saveUser = () => {
       userRole: "volunteer",
       interests: ["Sports", "Football"],
       lastVisit: [],
+      password: "testPassword",
     },
     {
       firstName: "Barry",
@@ -76,6 +81,7 @@ const saveUser = () => {
       approved: false,
       userRole: "admin",
       lastVisit: [],
+      password: "testPassword",
     },
   ];
 

@@ -1,5 +1,4 @@
 const express = require("express");
-const authJwt = require("../middleware/jwt");
 
 const router = express.Router();
 const { setUser, loginUser } = require("../controllers/userController");

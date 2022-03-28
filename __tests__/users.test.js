@@ -44,7 +44,6 @@ describe("GET /api/users/", () => {
               userRole: expect.any(String),
               createdAt: expect.any(String),
               updatedAt: expect.any(String),
-              __v: expect.any(Number),
             })
           );
         });
@@ -56,7 +55,7 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          expect(Object.keys(user).length).toEqual(12);
+          expect(Object.keys(user).length).toEqual(11);
         });
       });
   });
@@ -130,9 +129,10 @@ describe("POST /api/users", () => {
       postcode: "m504ao",
       approved: false,
       userRole: "volunteer",
+      password: "test",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badPostCode)
       .expect(400)
       .then(({ body: { message } }) => {

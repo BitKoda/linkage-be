@@ -2,6 +2,26 @@
   "GET /api": {
     "description": "serves a json representation of all the available endpoints of the api"
   },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": [
+      {
+        "interests": [],
+        "lastVisit": [],
+        "_id": "6239bf7c17c6c9886aed42d8",
+        "firstName": "David",
+        "lastName": "M",
+        "email": "NEW@gmail.com",
+        "postcode": "m40 5tg",
+        "approved": false,
+        "userRole": "volunteer",
+        "createdAt": "2022-03-22T12:22:20.107Z",
+        "updatedAt": "2022-03-22T12:22:20.107Z",
+        "__v": 0
+      }
+    ]
+  },
   "GET /api/users?userRole=volunteer||visitee||admin": {
     "description": "serves an array of all users filtered by userRole",
     "queries": ["userRole"],
@@ -78,7 +98,7 @@
       "__v": 0
     }
   },
-  "POST /api/users": {
+  "POST /api/auth/signup": {
     "description": "serves a new user object. Interests property will be created automatically as an empty array. You can either leave it empty and update interests later or make the user choose their interests as they sign up",
     "queries": [],
     "exampleRequest": {
@@ -87,7 +107,27 @@
       "email": "fehtefhde@gmail.com",
       "postcode": "m50 4ao",
       "approved": false,
-      "userRole": "volunteer"
+      "userRole": "volunteer",
+      "password": "password"
+    },
+    "exampleResponse": {
+      "firstName": "William",
+      "lastName": "J",
+      "email": "will@gmail.com",
+      "postcode": "m40 5lt",
+      "approved": false,
+      "userRole": "visitee",
+      "interests": [],
+      "lastVisit": [],
+      "_id": "623eec8aa70e0b048e7cf0c0"
+    }
+  },
+  "POST /api/auth/login": {
+    "description": "serves a new user object. ",
+    "queries": [],
+    "exampleRequest": {
+      "email": "fehtefhde@gmail.com",
+      "password": "password"
     },
     "exampleResponse": {
       "firstName": "William",
@@ -99,9 +139,7 @@
       "interests": [],
       "lastVisit": [],
       "_id": "623eec8aa70e0b048e7cf0c0",
-      "createdAt": "2022-03-26T10:35:54.054Z",
-      "updatedAt": "2022-03-26T10:35:54.054Z",
-      "__v": 0
+      "accessToken": "very long string"
     }
   },
   "DELETE /api/users/:userId": {

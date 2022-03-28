@@ -77,7 +77,7 @@ const setUser = asyncHandler(async (req, res, next) => {
 
     // userServices.register(req.body).catch((err) => next(err));
 
-    const user = await User.create({
+    await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -87,7 +87,15 @@ const setUser = asyncHandler(async (req, res, next) => {
       lastVisit: req.body.lastVisit,
       password: req.body.password,
     });
-    res.status(201).json(user);
+    res.status(201).json({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      postcode: req.body.postcode,
+      approved: false,
+      userRole: req.body.userRole,
+      lastVisit: req.body.lastVisit,
+    });
   } catch (error) {
     next(error);
   }

@@ -8,8 +8,6 @@ const saveTestData = require("../backend/config/seed-visits.js");
 
 let data;
 beforeEach(async () => {
-  //   connectDB();
-
   await mongoose.connection
     .dropDatabase()
     .then(saveTestData)
@@ -18,7 +16,6 @@ beforeEach(async () => {
 });
 
 afterAll(() => {
-  //   return mongoose.disconnect();
   return mongoose.connection.close();
 });
 describe("GET /api/users/", () => {
@@ -118,7 +115,7 @@ describe("POST /api/users", () => {
       password: "testPassword",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badUser)
       .expect(400)
       .then(({ body: { message } }) => {
@@ -136,7 +133,7 @@ describe("POST /api/users", () => {
       password: "testPassword",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badUser)
       .expect(400)
       .then(({ body: { message } }) => {
@@ -154,7 +151,7 @@ describe("POST /api/users", () => {
       password: "testPassword",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badUser)
       .expect(400)
       .then(({ body: { message } }) => {

@@ -13,27 +13,27 @@ const connectDB = require("./config/db");
 // const port = Math.floor(Math.random() * 10000);
 const authJwt = require("./middleware/jwt");
 
-const corsOptions = {
-  origin: "http://localhost:5000",
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "http://localhost:5000",
+// };
+app.use(cors());
 
 connectDB();
 
-// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
-//   next();
-// });
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, Content-Type, Accept,  x-access-token"
+  );
+  next();
+});
 app.use("/api/users", [authJwt.verifyToken], require("./routes/userRoutes"));
-// app.use("/api/auth", require("./routes/authRoutes"));
-require("./routes/authRoutes")(app);
-// require("./routes/userRoutes")(app);
+app.use("/api/auth", require("./routes/authRoutes"));
 
-app.use("/api/visits", require("./routes/visitsRoutes"));
+app.use("/api/visits", [authJwt.verifyToken], require("./routes/visitsRoutes"));
 app.use("/api", require("./routes/endpointsRoutes"));
 
 app.use(handleCustomErrors);

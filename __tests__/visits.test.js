@@ -228,7 +228,7 @@ describe("POST /api/visits/", () => {
 });
 
 describe("DELETE /api/visits/:visitId", () => {
-  test.only("204: should delete a visit object ", () => {
+  test("204: should delete a visit object ", () => {
     const visitId = data.visits[3]._id.toString();
     return request(app).delete(`/api/visits/${visitId}`).expect(204);
   });

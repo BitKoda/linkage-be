@@ -8,8 +8,6 @@ const saveTestData = require("../backend/config/seed-visits.js");
 
 let data;
 beforeEach(async () => {
-  //   connectDB();
-
   await mongoose.connection
     .dropDatabase()
     .then(saveTestData)
@@ -18,7 +16,6 @@ beforeEach(async () => {
 });
 
 afterAll(() => {
-  //   return mongoose.disconnect();
   return mongoose.connection.close();
 });
 describe("GET /api/users/", () => {
@@ -59,7 +56,7 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          expect(Object.keys(user).length).toEqual(11);
+          expect(Object.keys(user).length).toEqual(13);
         });
       });
   });
@@ -88,9 +85,10 @@ describe("POST /api/users", () => {
       postcode: "m50 4ao",
       approved: false,
       userRole: "admin",
+      password: "test",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(goodUser)
       .expect(201)
       .then(({ body }) => {
@@ -114,9 +112,10 @@ describe("POST /api/users", () => {
       postcode: "m50 4ao",
       approved: false,
       userRole: "",
+      password: "testPassword",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badUser)
       .expect(400)
       .then(({ body: { message } }) => {
@@ -131,9 +130,10 @@ describe("POST /api/users", () => {
       postcode: "m50 4ao",
       approved: false,
       userRole: "visitee",
+      password: "testPassword",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badUser)
       .expect(400)
       .then(({ body: { message } }) => {
@@ -148,9 +148,10 @@ describe("POST /api/users", () => {
       postcode: "m50 4ao",
       approved: false,
       userRole: "voluntee",
+      password: "testPassword",
     };
     return request(app)
-      .post("/api/users")
+      .post("/api/auth/signup")
       .send(badUser)
       .expect(400)
       .then(({ body: { message } }) => {

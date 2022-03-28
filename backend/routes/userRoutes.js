@@ -1,8 +1,8 @@
 const express = require("express");
+
 const router = express.Router();
 const {
   getUsers,
-  setUser,
   updateUser,
   deleteUser,
   getVisitByUserId,
@@ -10,7 +10,7 @@ const {
   updateUsersInterests,
 } = require("../controllers/userController");
 
-router.route("/").get(getUsers).post(setUser);
+router.route("/").get(getUsers);
 
 router.route("/:id").patch(updateUser).delete(deleteUser).get(getUsersByID);
 

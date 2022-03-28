@@ -1,7 +1,16 @@
 const handleCustomErrors = (err, req, res, next) => {
-  if (err.status && err.msg)
+  if (err.status && err.msg) {
     res.status(err.status).send({ message: err.message });
-  else next(err);
+  }
+  if (err.name === "ValidationError") {
+    // mongoose validation error
+    return res.status(400).json({ message: err.message });
+  }
+
+  if (err.name === "UnauthorizedError") {
+    // jwt authentication error
+    return res.status(401).json({ message: "Token not valid" });
+  } else next(err);
 };
 
 const errorHandler = (error, req, res, next) => {

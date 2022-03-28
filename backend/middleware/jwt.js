@@ -1,14 +1,10 @@
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
-// const config = require("../config/auth.config.js");
-// const db = require("../models");
-const User = require("../models/userModel");
 
-// get password vars from .env file
 dotenv.config();
 
 verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  let token = req.cookies["x-access-token"];
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }

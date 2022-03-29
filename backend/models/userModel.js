@@ -16,7 +16,9 @@ const userSchema = mongoose.Schema(
     userRole: { type: String, required: [true, "Please choose role"] },
     avatar_url: {
       type: String,
-      required: [true, "Please add a profile picture"],
+      default:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
+      required: false,
     },
     interests: {
       type: Array,
@@ -37,6 +39,7 @@ const userSchema = mongoose.Schema(
     },
     lastVisit: {
       type: Array,
+      default: [],
       required: false,
     },
     latitude: { type: Number },

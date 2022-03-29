@@ -206,14 +206,14 @@ const loginUser = asyncHandler(async (req, res, next) => {
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
         expiresIn: 86400, // 24 hours
       });
-      let options = {
-        path: "/",
-        sameSite: true,
-        maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
-        httpOnly: true, // The cookie only accessible by the web server
-      };
-      res.cookie("x-access-token", token, options);
-      res.status(200).send({
+      // let options = {
+      //   path: "/",
+      //   sameSite: true,
+      //   maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
+      //   httpOnly: true, // The cookie only accessible by the web server
+      // };
+      // res.cookie("x-access-token", token, options);
+      res.setHeader("x-access-token", token).status(200).send({
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,

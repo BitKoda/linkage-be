@@ -16,7 +16,20 @@ const userSchema = mongoose.Schema(
     userRole: { type: String, required: [true, "Please choose role"] },
     interests: {
       type: Array,
+      default: [],
       required: [true, "Please choose some Interests"],
+    },
+    needs: {
+      type: Array,
+      default: [],
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
+    age: {
+      type: Number,
+      default: 75,
     },
     lastVisit: {
       type: Array,

@@ -129,7 +129,13 @@ const updateUser = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error("User not found");
     });
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    if (req.body.interests.length === 0) {
+      res.status(400);
+      throw new Error("Bad request");
+    }
+  const updatedUser = await User.findByIdAndUpdate(
+    req.params.id, 
+    req.body, {
     new: true,
   });
 
@@ -163,28 +169,28 @@ const getVisitByUserId = asyncHandler(async (req, res) => {
   }
 });
 
-const updateUsersInterests = asyncHandler(async (req, res, next) => {
-  const userId = req.params.id;
+// const updateUsersInterests = asyncHandler(async (req, res, next) => {
+//   const userId = req.params.id;
 
-  if (userId.length !== 24) {
-    res.status(404);
-    throw new Error("Invalid id");
-  }
-  await User.findById(userId)
-    .exec()
-    .catch((error) => {
-      res.status(404);
-      throw new Error("No user found");
-    });
-  if (req.body.interests.length === 0) {
-    res.status(400);
-    throw new Error("Bad request");
-  }
-  const updatedUserInterests = await User.findByIdAndUpdate(userId, req.body, {
-    new: true,
-  });
-  res.status(201).json(updatedUserInterests);
-});
+//   if (userId.length !== 24) {
+//     res.status(404);
+//     throw new Error("Invalid id");
+//   }
+//   await User.findById(userId)
+//     .exec()
+//     .catch((error) => {
+//       res.status(404);
+//       throw new Error("No user found");
+//     });
+//   if (req.body.interests.length === 0) {
+//     res.status(400);
+//     throw new Error("Bad request");
+//   }
+//   const updatedUserInterests = await User.findByIdAndUpdate(userId, req.body, {
+//     new: true,
+//   });
+//   res.status(201).json(updatedUserInterests);
+// });
 
 const loginUser = asyncHandler(async (req, res, next) => {
   await User.findOne({ email: req.body.email })
@@ -238,6 +244,6 @@ module.exports = {
   updateUser,
   deleteUser,
   getVisitByUserId,
-  updateUsersInterests,
+  // updateUsersInterests,
   loginUser,
 };

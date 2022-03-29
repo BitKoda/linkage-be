@@ -103,6 +103,8 @@ const setUser = asyncHandler(async (req, res, next) => {
       approved: false,
       userRole: req.body.userRole,
       password: req.body.password,
+      longitude: longitude,
+      latitude: latitude,
     });
 
     res.status(201).json(user);

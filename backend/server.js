@@ -9,14 +9,16 @@ const {
   handleCustomErrors,
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
+
 // const port = Math.floor(Math.random() * 10000);
+
 
 const corsConfig = {
   origin: "http://localhost:3000",
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
   credentials: true,
 };
-
+app.set("trust proxy", 1);
 app.use(cors(corsConfig));
 
 const cookieParser = require("cookie-parser");

@@ -12,13 +12,13 @@ const connectDB = require("./config/db");
 
 // const port = Math.floor(Math.random() * 10000);
 
-const corsConfig = {
-  origin: "http://localhost:3000",
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
-  credentials: true,
-};
+// const corsConfig = {
+//   origin: "http://localhost:3000",
+//   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
+//   credentials: true,
+// };
 app.set("trust proxy", 1);
-app.use(cors(corsConfig));
+app.use(cors());
 
 const cookieParser = require("cookie-parser");
 

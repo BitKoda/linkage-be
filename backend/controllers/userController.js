@@ -95,30 +95,17 @@ const setUser = asyncHandler(async (req, res, next) => {
         throw new Error("Bad request: postcode invalid");
       });
 
-    await User.create({
+    const user = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       postcode: req.body.postcode,
       approved: false,
       userRole: req.body.userRole,
-      lastVisit: req.body.lastVisit,
       password: req.body.password,
-      avatar_url: req.body.avatar_url,
     });
 
-    res.status(201).json({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      postcode: req.body.postcode,
-      approved: false,
-      userRole: req.body.userRole,
-      lastVisit: req.body.lastVisit,
-      latitude: latitude,
-      longitude: longitude,
-      avatar_url: req.body.avatar_url,
-    });
+    res.status(201).json(user);
   } catch (error) {
     next(error);
   }

@@ -90,14 +90,13 @@ describe("POST /api/users", () => {
       approved: false,
       userRole: "admin",
       password: "test",
-      avatar_url:
-        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
     };
     return request(app)
       .post("/api/auth/signup")
       .send(goodUser)
       .expect(201)
       .then(({ body }) => {
+        console.log(body);
         expect(body).toEqual(
           expect.objectContaining({
             firstName: "Sammy",

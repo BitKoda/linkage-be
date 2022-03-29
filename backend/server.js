@@ -10,6 +10,9 @@ const {
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
 
+// const port = Math.floor(Math.random() * 10000);
+
+
 const corsConfig = {
   origin: "http://localhost:3000",
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],

@@ -207,6 +207,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         expiresIn: 86400, // 24 hours
       });
       let options = {
+        path: "/",
         sameSite: "none",
         secure: true,
         maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours

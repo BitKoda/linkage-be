@@ -30,6 +30,8 @@ const saveUser = () => {
       age: 50,
       lastVisit: [],
       password: "testPassword",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=retro&r=x",
     },
     {
       firstName: "Freddie",
@@ -44,6 +46,8 @@ const saveUser = () => {
       age: 80,
       lastVisit: [new Date().getTime(), new Date().getTime()],
       password: "testPassword",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=retro&r=x",
     },
 
     {
@@ -59,6 +63,8 @@ const saveUser = () => {
       age: 82,
       lastVisit: [new Date().getTime()],
       password: "testPassword",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=retro&r=x",
     },
     {
       firstName: "Bert",
@@ -73,6 +79,8 @@ const saveUser = () => {
       age: 32,
       lastVisit: [],
       password: "testPassword",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
     },
     {
       firstName: "William",
@@ -87,6 +95,8 @@ const saveUser = () => {
       age: 43,
       lastVisit: [],
       password: "testPassword",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=retro&r=x",
     },
     {
       firstName: "Barry",
@@ -101,6 +111,8 @@ const saveUser = () => {
       age: 28,
       lastVisit: [],
       password: "testPassword",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=robohash&r=x",
     },
   ];
 

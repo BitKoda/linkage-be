@@ -48,6 +48,7 @@ describe("GET /api/users/", () => {
               age: expect.any(Number),
               createdAt: expect.any(String),
               updatedAt: expect.any(String),
+              avatar_url: expect.any(String),
             })
           );
         });
@@ -59,7 +60,7 @@ describe("GET /api/users/", () => {
       .expect(200)
       .then(({ body }) => {
         body.forEach((user) => {
-          expect(Object.keys(user).length).toEqual(14);
+          expect(Object.keys(user).length).toEqual(15);
         });
       });
   });
@@ -89,6 +90,8 @@ describe("POST /api/users", () => {
       approved: false,
       userRole: "admin",
       password: "test",
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
     };
     return request(app)
       .post("/api/auth/signup")
@@ -103,6 +106,8 @@ describe("POST /api/users", () => {
             postcode: "M419PW",
             approved: false,
             userRole: "admin",
+            avatar_url:
+              "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
           })
         );
       });
@@ -296,9 +301,9 @@ describe("GET - /api/users?userRole=:userRole", () => {
 describe("PATCH - /api/users/:userId", () => {
   test("Last name and interests have been updated", () => {
     const userId = data.users[0]._id.toString();
-    const updateLastNameAndInterests = { 
+    const updateLastNameAndInterests = {
       lastName: "Southcoder",
-      interests: ["Football", "Sports"] 
+      interests: ["Football", "Sports"],
     };
 
     return request(app)
@@ -315,9 +320,9 @@ describe("PATCH - /api/users/:userId", () => {
   });
   test("First name and interests have been updated", () => {
     const userId = data.users[0]._id.toString();
-    const updateFirstNameAndInterests = { 
+    const updateFirstNameAndInterests = {
       firstName: "Andrew",
-      interests: ["Football", "Sports"] 
+      interests: ["Football", "Sports"],
     };
 
     return request(app)
@@ -334,9 +339,9 @@ describe("PATCH - /api/users/:userId", () => {
   });
   test("email and interests have been updated", () => {
     const userId = data.users[0]._id.toString();
-    const updateEmailAndInterests = { 
+    const updateEmailAndInterests = {
       email: "Southcoder@gmail.com",
-      interests: ["Football", "Sports"] 
+      interests: ["Football", "Sports"],
     };
 
     return request(app)
@@ -375,21 +380,20 @@ describe("PATCH - /api/users/:userId", () => {
         });
       });
   });
-  test("400: Should return bad request for an empty interests array", () => {
-    const userId = data.users[0]._id.toString();
-    return request(app)
-      .patch(`/api/users/${userId}`)
-      .send({ interests: [] })
-      .expect(400)
-      .then(({ body: { message } }) => {
-        expect(message).toBe("Bad request");
-      });
-  });
+  // test("400: Should return bad request for an empty interests array", () => {
+  //   const userId = data.users[0]._id.toString();
+  //   return request(app)
+  //     .patch(`/api/users/${userId}`)
+  //     .send({ interests: [] })
+  //     .expect(400)
+  //     .then(({ body: { message } }) => {
+  //       expect(message).toBe("Bad request");
+  //     });
+  // });
   test("A user's bio has been updated", () => {
     const userId = data.users[0]._id.toString();
-    const updateBio = { 
+    const updateBio = {
       bio: "",
-      interests: ["Football", "Sports"] 
     };
 
     return request(app)
@@ -400,15 +404,13 @@ describe("PATCH - /api/users/:userId", () => {
         expect(body).toMatchObject({
           _id: userId,
           bio: "",
-          interests: ["Football", "Sports"],
         });
       });
   });
   test("A user's age has been updated", () => {
     const userId = data.users[0]._id.toString();
-    const updateAge = { 
+    const updateAge = {
       age: 35,
-      interests: ["Cooking", "Sports"] 
     };
 
     return request(app)
@@ -419,15 +421,13 @@ describe("PATCH - /api/users/:userId", () => {
         expect(body).toMatchObject({
           _id: userId,
           age: 35,
-          interests: ["Cooking", "Sports"],
         });
       });
   });
   test("A user's needs have been updated", () => {
     const userId = data.users[0]._id.toString();
-    const updateNeeds = { 
+    const updateNeeds = {
       needs: ["ironing", "cleaning"],
-      interests: ["Cooking", "Reading"] 
     };
 
     return request(app)
@@ -438,7 +438,25 @@ describe("PATCH - /api/users/:userId", () => {
         expect(body).toMatchObject({
           _id: userId,
           needs: ["ironing", "cleaning"],
-          interests: ["Cooking", "Reading"],
+        });
+      });
+  });
+  test("should update an avatar url for a user", () => {
+    const userId = data.users[0]._id.toString();
+    const updateAvatar = {
+      avatar_url:
+        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=monsterid&r=x",
+    };
+
+    return request(app)
+      .patch(`/api/users/${userId}`)
+      .send(updateAvatar)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          _id: userId,
+          avatar_url:
+            "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=monsterid&r=x",
         });
       });
   });

@@ -104,6 +104,7 @@ const setUser = asyncHandler(async (req, res, next) => {
       userRole: req.body.userRole,
       lastVisit: req.body.lastVisit,
       password: req.body.password,
+      avatar_url: req.body.avatar_url,
     });
 
     res.status(201).json({
@@ -116,6 +117,7 @@ const setUser = asyncHandler(async (req, res, next) => {
       lastVisit: req.body.lastVisit,
       latitude: latitude,
       longitude: longitude,
+      avatar_url: req.body.avatar_url,
     });
   } catch (error) {
     next(error);
@@ -129,16 +131,15 @@ const updateUser = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error("User not found");
     });
-    if (req.body.interests.length === 0) {
-      res.status(400);
-      throw new Error("Bad request");
-    }
-  const updatedUser = await User.findByIdAndUpdate(
-    req.params.id, 
-    req.body, {
+  // if (
+  //   req.body.interests.length === 0
+  // ) {
+  //   res.status(400);
+  //   throw new Error("Bad request");
+  // }
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-
   res.status(200).json(updatedUser);
 });
 

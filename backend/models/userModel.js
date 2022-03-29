@@ -14,6 +14,10 @@ const userSchema = mongoose.Schema(
     postcode: { type: String, required: [true, "please input postcode"] },
     approved: { type: Boolean, default: false, required: true },
     userRole: { type: String, required: [true, "Please choose role"] },
+    avatar_url: {
+      type: String,
+      required: [true, "Please add a profile picture"],
+    },
     interests: {
       type: Array,
       default: [],
@@ -36,7 +40,7 @@ const userSchema = mongoose.Schema(
       required: false,
     },
     latitude: { type: Number },
-    longitude: { type: Number }    
+    longitude: { type: Number },
   },
 
   {

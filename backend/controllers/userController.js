@@ -95,28 +95,19 @@ const setUser = asyncHandler(async (req, res, next) => {
         throw new Error("Bad request: postcode invalid");
       });
 
-    await User.create({
+    const user = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       postcode: req.body.postcode,
       approved: false,
       userRole: req.body.userRole,
-      lastVisit: req.body.lastVisit,
       password: req.body.password,
+      longitude: longitude,
+      latitude: latitude,
     });
 
-    res.status(201).json({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      postcode: req.body.postcode,
-      approved: false,
-      userRole: req.body.userRole,
-      lastVisit: req.body.lastVisit,
-      latitude: latitude,
-      longitude: longitude,
-    });
+    res.status(201).json(user);
   } catch (error) {
     next(error);
   }
@@ -129,10 +120,15 @@ const updateUser = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error("User not found");
     });
+  // if (
+  //   req.body.interests.length === 0
+  // ) {
+  //   res.status(400);
+  //   throw new Error("Bad request");
+  // }
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-
   res.status(200).json(updatedUser);
 });
 
@@ -163,28 +159,28 @@ const getVisitByUserId = asyncHandler(async (req, res) => {
   }
 });
 
-const updateUsersInterests = asyncHandler(async (req, res, next) => {
-  const userId = req.params.id;
+// const updateUsersInterests = asyncHandler(async (req, res, next) => {
+//   const userId = req.params.id;
 
-  if (userId.length !== 24) {
-    res.status(404);
-    throw new Error("Invalid id");
-  }
-  await User.findById(userId)
-    .exec()
-    .catch((error) => {
-      res.status(404);
-      throw new Error("No user found");
-    });
-  if (req.body.interests.length === 0) {
-    res.status(400);
-    throw new Error("Bad request");
-  }
-  const updatedUserInterests = await User.findByIdAndUpdate(userId, req.body, {
-    new: true,
-  });
-  res.status(201).json(updatedUserInterests);
-});
+//   if (userId.length !== 24) {
+//     res.status(404);
+//     throw new Error("Invalid id");
+//   }
+//   await User.findById(userId)
+//     .exec()
+//     .catch((error) => {
+//       res.status(404);
+//       throw new Error("No user found");
+//     });
+//   if (req.body.interests.length === 0) {
+//     res.status(400);
+//     throw new Error("Bad request");
+//   }
+//   const updatedUserInterests = await User.findByIdAndUpdate(userId, req.body, {
+//     new: true,
+//   });
+//   res.status(201).json(updatedUserInterests);
+// });
 
 const loginUser = asyncHandler(async (req, res, next) => {
   await User.findOne({ email: req.body.email })
@@ -224,6 +220,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         userRole: user.userRole,
         lastVisit: user.lastVisit,
         accessToken: token,
+        avatar_url: user.avatar_url,
       });
     })
     .catch((err) => {
@@ -238,6 +235,6 @@ module.exports = {
   updateUser,
   deleteUser,
   getVisitByUserId,
-  updateUsersInterests,
+  // updateUsersInterests,
   loginUser,
 };

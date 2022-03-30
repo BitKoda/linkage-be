@@ -17,11 +17,10 @@ const authJwt = require("./middleware/jwt");
 // const port = Math.floor(Math.random() * 10000);
 >>>>>>> 3144b571ff1fbccb96830e612df548192bb44f98
 
-
 const corsConfig = {
-  origin: "http://localhost:3000",
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
-  credentials: true,
+  // origin: "http://localhost:3000",
+  // methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
+  credentials: false,
 };
 app.set("trust proxy", 1);
 app.use(cors(corsConfig));
@@ -35,8 +34,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", false);
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept,  x-access-token"

@@ -9,13 +9,11 @@ const {
   handleCustomErrors,
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
-<<<<<<< HEAD
+
 const port = Math.floor(Math.random() * 10000);
 const authJwt = require("./middleware/jwt");
-=======
 
 // const port = Math.floor(Math.random() * 10000);
->>>>>>> 3144b571ff1fbccb96830e612df548192bb44f98
 
 const corsConfig = {
   // origin: "http://localhost:3000",

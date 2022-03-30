@@ -208,12 +208,13 @@ const loginUser = asyncHandler(async (req, res, next) => {
       });
       let options = {
         path: "/",
-        sameSite: true,
+        sameSite: "none",
+        secure: true,
         maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
         httpOnly: true, // The cookie only accessible by the web server
       };
       res.cookie("x-access-token", token, options);
-      res.status(200).send({
+      res.setHeader("x-access-token", token).status(200).send({
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,

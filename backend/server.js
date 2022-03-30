@@ -9,10 +9,23 @@ const {
   handleCustomErrors,
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
+<<<<<<< HEAD
 const port = Math.floor(Math.random() * 10000);
 const authJwt = require("./middleware/jwt");
+=======
 
-app.use(cors());
+// const port = Math.floor(Math.random() * 10000);
+>>>>>>> 3144b571ff1fbccb96830e612df548192bb44f98
+
+
+const corsConfig = {
+  origin: "http://localhost:3000",
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
+  credentials: true,
+};
+app.set("trust proxy", 1);
+app.use(cors(corsConfig));
+
 const cookieParser = require("cookie-parser");
 
 app.use(cookieParser());
@@ -22,9 +35,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, Content-Type, Accept,  x-access-token"
+    "Origin, X-Requested-With, Content-Type, Accept,  x-access-token"
   );
   next();
 });

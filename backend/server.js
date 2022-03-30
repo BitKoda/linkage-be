@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const dotenv = require("dotenv").config();
-// const port = process.env.PORT || 9000;
+const port = process.env.PORT || 9000;
 const app = express();
 const colors = require("colors");
 const {
@@ -10,18 +10,17 @@ const {
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
 
-const port = Math.floor(Math.random() * 10000);
 const authJwt = require("./middleware/jwt");
 
 // const port = Math.floor(Math.random() * 10000);
 
-// const corsConfig = {
-//   origin: "http://localhost:3000",
-//   // methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
-//   credentials: false,
-// };
+const corsConfig = {
+  // origin: "http://localhost:3000",
+  // methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
+  credentials: false,
+};
 app.set("trust proxy", 1);
-app.use(cors());
+app.use(cors(corsConfig));
 
 const cookieParser = require("cookie-parser");
 
@@ -31,15 +30,15 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Credentials", false);
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept,  x-access-token"
-//   );
-//   next();
-// });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", false);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept,  x-access-token"
+  );
+  next();
+});
 app.use("/api/users", require("./routes/userRoutes"));
 // app.use("/api/users", [authJwt.verifyToken], require("./routes/userRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));

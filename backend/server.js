@@ -16,7 +16,7 @@ const authJwt = require("./middleware/jwt");
 // const port = Math.floor(Math.random() * 10000);
 
 const corsConfig = {
-  // origin: "http://localhost:3000",
+  origin: "http://localhost:3000",
   // methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH", "DELETE"],
   credentials: false,
 };

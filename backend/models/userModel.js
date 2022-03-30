@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema(
     avatar_url: {
       type: String,
       default:
-        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
+        "https://kcl-mrcdtp.com/wp-content/uploads/sites/201/2021/03/No-Image-1.png",
       required: false,
     },
     interests: {

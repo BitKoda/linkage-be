@@ -16,8 +16,7 @@ const userSchema = mongoose.Schema(
     userRole: { type: String, required: [true, "Please choose role"] },
     avatar_url: {
       type: String,
-      default:
-        "https://gravatar.com/avatar/add6ff0c06299e3dc575a5605b82756b?s=400&d=wavatar&r=x",
+      default: "",
       required: false,
     },
     interests: {

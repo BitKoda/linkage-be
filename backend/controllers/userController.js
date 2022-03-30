@@ -220,6 +220,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         userRole: user.userRole,
         lastVisit: user.lastVisit,
         accessToken: token,
+        avatar_url: user.avatar_url,
       });
     })
     .catch((err) => {

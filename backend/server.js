@@ -39,12 +39,12 @@ app.use((req, res, next) => {
   );
   next();
 });
-app.use("/api/users", require("./routes/userRoutes"));
-// app.use("/api/users", [authJwt.verifyToken], require("./routes/userRoutes"));
+// app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/users", [authJwt.verifyToken], require("./routes/userRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 
-app.use("/api/visits", require("./routes/visitsRoutes"));
-// app.use("/api/visits", [authJwt.verifyToken], require("./routes/visitsRoutes"));
+// app.use("/api/visits", require("./routes/visitsRoutes"));
+app.use("/api/visits", [authJwt.verifyToken], require("./routes/visitsRoutes"));
 app.use("/api", require("./routes/endpointsRoutes"));
 
 app.use(handleCustomErrors);

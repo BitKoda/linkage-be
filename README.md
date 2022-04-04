@@ -109,7 +109,7 @@ returns a new user object
 POST /api/auth/login
 ```
 
-returns a user object with a unic access token
+returns a user object with a unique access token
 
 ```
 DELETE /api/users/:userId

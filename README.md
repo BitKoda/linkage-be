@@ -85,7 +85,7 @@ returns a list of all users
 GET /api/visits
 ```
 
-returns a list of all vivits
+returns a list of all visits
 
 ```
 GET /api/users/:userId

@@ -1,6 +1,6 @@
 # AgeLink Back-End
 
-# Table of contents
+## Table of contents
 
 - [About <a name="about"></a>](#about-)
 - [Prerequisites <a name="Prerequisites"></a>](#Prerequisites-)
@@ -16,7 +16,7 @@ Testing was carried out using Jest and Supertest.
 
 API has been hosted with Heroku [here](https://final-project-ukage-be.herokuapp.com/api).
 
-### Prerequisites <a name="Prerequisites"></a>
+## Prerequisites <a name="Prerequisites"></a>
 
 Please ensure the following are installed:
 

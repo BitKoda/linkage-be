@@ -79,25 +79,6 @@
       "__v": 0
     }
   },
-  "PATCH /api/users/:id/interests": {
-    "description": "serves a user object with the updated interests",
-    "Properties to be updated": ["interests"],
-    "exampleRequest": { "interests": ["Football", "Sports"] },
-    "exampleResponse": {
-      "_id": "623edf3b06c70a7f36281083",
-      "firstName": "Alex",
-      "lastName": "J",
-      "email": "will@gmail.com",
-      "postcode": "m40 5lt",
-      "approved": false,
-      "userRole": "visitee",
-      "interests": ["Football", "Sports"],
-      "lastVisit": ["14182940000"],
-      "createdAt": "2022-03-26T09:39:07.336Z",
-      "updatedAt": "2022-03-26T09:55:59.008Z",
-      "__v": 0
-    }
-  },
   "POST /api/auth/signup": {
     "description": "serves a new user object. Interests property will be created automatically as an empty array. You can either leave it empty and update interests later or make the user choose their interests as they sign up",
     "queries": [],

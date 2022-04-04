@@ -1,4 +1,4 @@
-# AgeLink Back-End
+# Linkage Back-End
 
 ## Table of contents
 
@@ -10,7 +10,7 @@
 
 ## About <a name="about"></a>
 
-This is a RESTful API for AgeLink Back-End database. The database is `MongoDB Atlas`, interacted with via `Mongoose and Expres.js`. It contains data on users, visits and passwords, which are accessible via the endpoints provided and appropriate GET, POST, PATCH and DELETE methods. A complete list of endpoints and methods is accessible in the `endpoints.json` file.
+This is a RESTful API for Linkage Back-End database. The database is `MongoDB Atlas`, interacted with via `Mongoose and Express.js`. It contains data on users, visits and passwords, which are accessible via the endpoints provided and appropriate GET, POST, PATCH and DELETE methods. A complete list of endpoints and methods is accessible in the `endpoints.json` file.
 
 Testing was carried out using Jest and Supertest.
 

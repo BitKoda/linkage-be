@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const dotenv = require("dotenv").config();
-// const port = process.env.PORT || 9000;
+const port = process.env.PORT || 9000;
 const app = express();
 const colors = require("colors");
 const {
@@ -9,6 +9,11 @@ const {
   handleCustomErrors,
 } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
+<<<<<<< HEAD
+=======
+
+const authJwt = require("./middleware/jwt");
+>>>>>>> e1979d3b4fa4b3d29bc6318d0e62dec4d2f07ecb
 
 // const port = Math.floor(Math.random() * 10000);
 
@@ -37,12 +42,12 @@ app.use((req, res, next) => {
   );
   next();
 });
-app.use("/api/users", require("./routes/userRoutes"));
-// app.use("/api/users", [authJwt.verifyToken], require("./routes/userRoutes"));
+// app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/users", [authJwt.verifyToken], require("./routes/userRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 
-app.use("/api/visits", require("./routes/visitsRoutes"));
-// app.use("/api/visits", [authJwt.verifyToken], require("./routes/visitsRoutes"));
+// app.use("/api/visits", require("./routes/visitsRoutes"));
+app.use("/api/visits", [authJwt.verifyToken], require("./routes/visitsRoutes"));
 app.use("/api", require("./routes/endpointsRoutes"));
 
 app.use(handleCustomErrors);

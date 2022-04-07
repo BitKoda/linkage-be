@@ -96,7 +96,6 @@ describe("POST /api/users", () => {
       .send(goodUser)
       .expect(201)
       .then(({ body }) => {
-        console.log(body);
         expect(body).toEqual(
           expect.objectContaining({
             firstName: "Sammy",
